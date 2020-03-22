@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+    <item
+        android:id="@+id/menu_1"
+        android:icon="@drawable/logo"
+        android:title="首页 main"
+        app:showAsAction="ifRoom"
+        />
+
+    <item
+        android:id="@+id/menu_2"
+        android:icon="@drawable/logo"
+        android:title="日期 activity"
+        app:showAsAction="never"
+        />
+
+    <item
+        android:id="@+id/menu_3"
+        android:icon="@drawable/logo"
+        android:title="App 通知 activity"
+        app:showAsAction="never"
+        />
+
+    <item
+        android:id="@+id/search"
+        android:title="搜索"
+        android:icon="@drawable/logo"
+        app:showAsAction="ifRoom|collapseActionView"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        />
+</menu>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<resources>
+    <string name="logo_for_jd_image">logo</string>
+    <string name="qrcode_for_jd_image">logo</string>
+    <string name="msg_for_jd_image">logo</string>
+</resources>

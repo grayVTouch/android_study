@@ -1,0 +1,886 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EDEDED"
+    >
+
+    <RelativeLayout
+        android:id="@+id/nav"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="#c82519"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        >
+        <ImageView
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:src="@drawable/jd_logo"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/logo_for_jd_image"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            />
+
+        <ImageView
+            android:id="@+id/msg"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:src="@drawable/jd_msg"
+            android:adjustViewBounds="true"
+            android:layout_marginStart="10dp"
+            android:contentDescription="@string/msg_for_jd_image"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            />
+
+        <ImageView
+            android:id="@+id/qrcode"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:src="@drawable/jd_qrcode"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/qrcode_for_jd_image"
+            android:layout_toStartOf="@id/msg"
+            android:layout_centerVertical="true"
+            />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/search"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/nav"
+        android:background="#c82519"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:gravity="center"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="@drawable/search_for_jd"
+            >
+            <ImageView
+                android:id="@+id/search_for_jd"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/jd_search_for_image"
+                android:contentDescription="搜索"
+                android:layout_centerVertical="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="12dp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/search_for_jd"
+                android:layout_centerVertical="true"
+                android:text="运动户外超级品类日，领券300减40"
+                android:textColor="#999"
+                android:layout_marginStart="10dp"
+                />
+            <ImageView
+                android:id="@+id/photo_for_jd"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/jd_photo"
+                android:contentDescription="搜索"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="12dp"
+                />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/slide"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/search"
+        >
+
+        <LinearLayout
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:orientation="vertical"
+            android:background="#c82519"
+            ></LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/menu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="首页"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="#fff"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="美妆"
+                android:textSize="16sp"
+                android:textColor="#fff"
+                android:layout_marginStart="10dp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="医药健康"
+                android:textSize="16sp"
+                android:textColor="#fff"
+                android:layout_marginStart="10dp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="家具厨具"
+                android:textSize="16sp"
+                android:textColor="#fff"
+                android:layout_marginStart="10dp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="家装"
+                android:textSize="16sp"
+                android:textColor="#fff"
+                android:layout_marginStart="10dp"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/menu"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            >
+            <ImageView
+                android:id="@+id/slide_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/jd_slide"
+                android:contentDescription="图片幻灯片"
+                android:adjustViewBounds="true"
+                android:background="@drawable/border"
+                />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/menu_bottom"
+        >
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/jd_ad_left"
+            android:adjustViewBounds="true"
+            android:layout_weight="1"
+            />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/jd_ad_center"
+            android:adjustViewBounds="true"
+            android:layout_weight="1"
+            />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/jd_ad_right"
+            android:adjustViewBounds="true"
+            android:layout_weight="1"
+            />
+    </LinearLayout>
+
+<!--    <TableLayout-->
+<!--        android:id="@+id/menu_top"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="horizontal"-->
+<!--        android:paddingStart="12dp"-->
+<!--        android:paddingEnd="12dp"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/ad"-->
+<!--        android:gravity="center"-->
+<!--        android:stretchColumns="*"-->
+<!--        >-->
+
+<!--        <TableRow>-->
+<!--            <LinearLayout-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="vertical"-->
+<!--                android:gravity="center"-->
+<!--                android:layout_marginEnd="20dp"-->
+<!--                >-->
+<!--                <ImageView-->
+<!--                    android:layout_width="36dp"-->
+<!--                    android:layout_height="36dp"-->
+<!--                    android:src="@drawable/jd_menu_1"-->
+<!--                    android:adjustViewBounds="true"-->
+<!--                    />-->
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:maxWidth="60dp"-->
+<!--                    android:text="京东超市"-->
+<!--                    android:layout_marginTop="5dp"-->
+<!--                    android:textSize="12sp"-->
+<!--                    android:textColor="#777"-->
+<!--                    android:singleLine="true"-->
+<!--                    />-->
+<!--            </LinearLayout>-->
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="60dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="vertical"-->
+<!--                android:gravity="center"-->
+<!--                android:layout_marginEnd="20dp"-->
+<!--                >-->
+<!--                <ImageView-->
+<!--                    android:layout_width="36dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:src="@drawable/jd_menu_2"-->
+<!--                    android:adjustViewBounds="true"-->
+<!--                    />-->
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="数码电器"-->
+<!--                    android:layout_marginTop="5dp"-->
+<!--                    android:textSize="12sp"-->
+<!--                    android:textColor="#777"-->
+<!--                    />-->
+<!--            </LinearLayout>-->
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="vertical"-->
+<!--                android:gravity="center"-->
+<!--                android:layout_marginEnd="20dp"-->
+<!--                >-->
+<!--                <ImageView-->
+<!--                    android:layout_width="36dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:src="@drawable/jd_menu_3"-->
+<!--                    android:adjustViewBounds="true"-->
+<!--                    />-->
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="京东服饰"-->
+<!--                    android:layout_marginTop="5dp"-->
+<!--                    android:textSize="12sp"-->
+<!--                    android:textColor="#777"-->
+<!--                    />-->
+<!--            </LinearLayout>-->
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="vertical"-->
+<!--                android:gravity="center"-->
+<!--                android:layout_marginEnd="20dp"-->
+<!--                >-->
+<!--                <ImageView-->
+<!--                    android:layout_width="36dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:src="@drawable/jd_menu_4"-->
+<!--                    android:adjustViewBounds="true"-->
+<!--                    />-->
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="京东生鲜"-->
+<!--                    android:layout_marginTop="5dp"-->
+<!--                    android:textSize="12sp"-->
+<!--                    android:textColor="#777"-->
+<!--                    />-->
+<!--            </LinearLayout>-->
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="vertical"-->
+<!--                android:gravity="center"-->
+<!--                >-->
+<!--                <ImageView-->
+<!--                    android:layout_width="36dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:src="@drawable/jd_menu_5"-->
+<!--                    android:adjustViewBounds="true"-->
+<!--                    />-->
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="京东到家"-->
+<!--                    android:layout_marginTop="5dp"-->
+<!--                    android:textSize="12sp"-->
+<!--                    android:textColor="#777"-->
+<!--                    />-->
+<!--            </LinearLayout>-->
+<!--        </TableRow>-->
+
+<!--    </TableLayout>-->
+<!--    <TableLayout-->
+<!--        android:id="@+id/menu_bottom"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="horizontal"-->
+<!--        android:paddingStart="12dp"-->
+<!--        android:paddingEnd="12dp"-->
+<!--        android:layout_marginTop="12dp"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/menu_top"-->
+<!--        android:gravity="center"-->
+<!--        android:stretchColumns="*"-->
+<!--        >-->
+
+<!--        <TableRow>-->
+<!--            <LinearLayout-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="vertical"-->
+<!--                android:gravity="center"-->
+<!--                android:layout_marginEnd="20dp"-->
+<!--                >-->
+<!--                <ImageView-->
+<!--                    android:layout_width="36dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:src="@drawable/jd_cz"-->
+<!--                    android:adjustViewBounds="true"-->
+<!--                    />-->
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="充值缴费"-->
+<!--                    android:layout_marginTop="5dp"-->
+<!--                    android:textSize="12sp"-->
+<!--                    android:textColor="#777"-->
+<!--                    />-->
+<!--            </LinearLayout>-->
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="vertical"-->
+<!--                android:gravity="center"-->
+<!--                android:layout_marginEnd="20dp"-->
+<!--                >-->
+<!--                <ImageView-->
+<!--                    android:layout_width="36dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:src="@drawable/jd_shop"-->
+<!--                    android:adjustViewBounds="true"-->
+<!--                    />-->
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="9.9元拼"-->
+<!--                    android:layout_marginTop="5dp"-->
+<!--                    android:textSize="12sp"-->
+<!--                    android:textColor="#777"-->
+<!--                    />-->
+<!--            </LinearLayout>-->
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="vertical"-->
+<!--                android:gravity="center"-->
+<!--                android:layout_marginEnd="20dp"-->
+<!--                >-->
+<!--                <ImageView-->
+<!--                    android:layout_width="36dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:src="@drawable/jd_money"-->
+<!--                    android:adjustViewBounds="true"-->
+<!--                    />-->
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="借钱"-->
+<!--                    android:layout_marginTop="5dp"-->
+<!--                    android:textSize="12sp"-->
+<!--                    android:textColor="#777"-->
+<!--                    />-->
+<!--            </LinearLayout>-->
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="vertical"-->
+<!--                android:gravity="center"-->
+<!--                android:layout_marginEnd="20dp"-->
+<!--                >-->
+<!--                <ImageView-->
+<!--                    android:layout_width="36dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:src="@drawable/jd_jie"-->
+<!--                    android:adjustViewBounds="true"-->
+<!--                    />-->
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="借钱"-->
+<!--                    android:layout_marginTop="5dp"-->
+<!--                    android:textSize="12sp"-->
+<!--                    android:textColor="#777"-->
+<!--                    />-->
+<!--            </LinearLayout>-->
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="vertical"-->
+<!--                android:gravity="center"-->
+<!--                >-->
+<!--                <ImageView-->
+<!--                    android:layout_width="36dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:src="@drawable/jd_plus"-->
+<!--                    android:adjustViewBounds="true"-->
+<!--                    />-->
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="plus 会员"-->
+<!--                    android:layout_marginTop="5dp"-->
+<!--                    android:textSize="12sp"-->
+<!--                    android:textColor="#777"-->
+<!--                    />-->
+<!--            </LinearLayout>-->
+<!--        </TableRow>-->
+
+<!--    </TableLayout>-->
+
+
+    <LinearLayout
+        android:id="@+id/menu_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/slide"
+        android:layout_marginTop="10dp"
+        >
+        <LinearLayout style="@style/jd_menu_linear_layout">
+            <ImageView
+                android:src="@drawable/jd_menu_1"
+                style="@style/jd_menu_image"
+                />
+            <TextView
+                android:text="京东超市"
+                style="@style/layout_wrap.jd_menu_text"
+                />
+        </LinearLayout>
+
+        <LinearLayout style="@style/jd_menu_linear_layout">
+            <ImageView
+                android:src="@drawable/jd_menu_2"
+                style="@style/jd_menu_image"
+                />
+            <TextView
+                android:text="数码电器"
+                style="@style/layout_wrap.jd_menu_text"
+                />
+        </LinearLayout>
+
+        <LinearLayout style="@style/jd_menu_linear_layout">
+            <ImageView
+                android:src="@drawable/jd_menu_3"
+                style="@style/jd_menu_image"
+                />
+            <TextView
+                android:text="京东服饰"
+                style="@style/layout_wrap.jd_menu_text"
+                />
+        </LinearLayout>
+
+        <LinearLayout style="@style/jd_menu_linear_layout">
+            <ImageView
+                android:src="@drawable/jd_menu_4"
+                style="@style/jd_menu_image"
+                />
+            <TextView
+                android:text="京东生鲜"
+                style="@style/layout_wrap.jd_menu_text"
+                />
+        </LinearLayout>
+
+        <LinearLayout style="@style/jd_menu_linear_layout">
+            <ImageView
+                android:src="@drawable/jd_menu_5"
+                style="@style/jd_menu_image"
+                />
+            <TextView
+                android:text="京东到家"
+                style="@style/layout_wrap.jd_menu_text"
+                />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/menu_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/menu_top"
+
+        >
+        <LinearLayout style="@style/jd_menu_linear_layout">
+            <ImageView
+                android:src="@drawable/jd_cz"
+                style="@style/jd_menu_image"
+                />
+            <TextView
+                android:text="充值缴费"
+                style="@style/layout_wrap.jd_menu_text"
+                />
+        </LinearLayout>
+
+        <LinearLayout style="@style/jd_menu_linear_layout">
+            <ImageView
+                android:src="@drawable/jd_shop"
+                style="@style/jd_menu_image"
+                />
+            <TextView
+                android:text="9.9元拼"
+                style="@style/layout_wrap.jd_menu_text"
+                />
+        </LinearLayout>
+
+        <LinearLayout style="@style/jd_menu_linear_layout">
+
+            <ImageView
+                style="@style/jd_menu_image"
+                android:src="@drawable/jd_jie" />
+
+            <TextView
+                style="@style/layout_wrap.jd_menu_text"
+                android:text="借钱" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/jd_menu_linear_layout">
+            <ImageView
+                android:src="@drawable/jd_money"
+                style="@style/jd_menu_image"
+                />
+            <TextView
+                android:text="借券"
+                style="@style/layout_wrap.jd_menu_text"
+                />
+        </LinearLayout>
+
+        <LinearLayout style="@style/jd_menu_linear_layout">
+            <ImageView
+                android:src="@drawable/jd_plus"
+                style="@style/jd_menu_image"
+                />
+            <TextView
+                android:text="plus 会员"
+                style="@style/layout_wrap.jd_menu_text"
+                />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ad"
+        android:layout_margin="10dp"
+        android:background="#fff"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:padding="12dp">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="1">
+
+                <RelativeLayout
+                    android:id="@+id/card_left_top"
+                    android:layout_width="match_parent"
+                    android:layout_height="24dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="24dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:gravity="center"
+                        android:text="京东秒杀"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="18dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/clock_border_for_jd"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="18dp"
+                            android:background="@drawable/clock_border_for_text_in_jd"
+                            android:gravity="center"
+                            android:paddingStart="5dp"
+                            android:paddingEnd="5dp"
+                            android:text="14点场"
+                            android:textColor="#fff"
+                            android:textSize="10sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="18dp"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginEnd="5dp"
+                            android:gravity="center"
+                            android:text="00:21:08"
+                            android:textColor="#E83131"
+                            android:textSize="10sp" />
+                    </LinearLayout>
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/card_left_top"
+                    android:layout_alignParentStart="true"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:adjustViewBounds="true"
+                            android:src="@drawable/logo" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="12dp"
+                            android:text="￥628"
+                            android:textSize="10sp"
+                            android:gravity="center_vertical"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="8dp"
+                            android:text="￥628"
+                            android:textSize="6sp"
+                            android:gravity="center_vertical"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:adjustViewBounds="true"
+                            android:src="@drawable/logo" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="12dp"
+                            android:text="￥628"
+                            android:textSize="10sp"
+                            android:gravity="center_vertical"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="8dp"
+                            android:text="￥628"
+                            android:textSize="6sp"
+                            android:gravity="center_vertical"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:adjustViewBounds="true"
+                            android:src="@drawable/logo" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="12dp"
+                            android:text="￥628"
+                            android:textSize="10sp"
+                            android:gravity="center_vertical"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="8dp"
+                            android:text="￥628"
+                            android:textSize="6sp"
+                            android:gravity="center_vertical"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+
+                </LinearLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/card_right_top"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="5dp"
+                android:layout_weight="1">
+
+                <LinearLayout
+                    android:id="@+id/card_right_inner_top"
+                    android:layout_width="match_parent"
+                    android:layout_height="24dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="发现好货"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:background="@drawable/jd_green_border"
+                        android:paddingStart="10dp"
+                        android:paddingTop="2dp"
+                        android:paddingEnd="10dp"
+                        android:paddingBottom="2dp"
+                        android:text="探索新奇特  >"
+                        android:textColor="#1EB68B"
+                        android:textSize="10dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/card_right_inner_mid"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/card_right_inner_top"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginTop="2dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="12dp"
+                        android:text="品质新生活"
+                        android:textColor="#1EB68B"
+                        android:textSize="10sp"
+                        android:gravity="center_vertical"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/card_right_inner_btm"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_below="@id/card_right_inner_mid"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginTop="2dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/jd_one" />
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/jd_two" />
+                </LinearLayout>
+
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

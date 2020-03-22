@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<resources>
+    <string name="app_name">test</string>
+    <string name="title">测试App</string>
+    <string name="mnmnm">下拉刷新</string>
+</resources>

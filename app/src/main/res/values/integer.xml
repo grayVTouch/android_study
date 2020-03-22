@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<resources>
+    <integer name="mini">1</integer>
+    <integer name="normal">0</integer>
+</resources>
