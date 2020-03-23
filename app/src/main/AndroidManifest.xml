@@ -91,6 +91,7 @@
         <activity android:name=".FrameLayoutActivity" />
         <activity android:name=".TableLayoutActivity" />
         <activity android:name=".AttrAnimationActivity" />
+        <activity android:name=".StyleActivity" />
 
     </application>
 </manifest>

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.net.http.SslError;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebSettings;
@@ -89,12 +90,15 @@ public class ConstraintLayoutActivity extends AppCompatActivity
 
 //        Tool.log("cache_dir: " + this.getExternalCacheDir().getAbsolutePath());
 
-        File file = new File(this.getExternalCacheDir() , "sister.mkv");
+//        File file = new File(this.getExternalCacheDir() , "sister.mkv");
+        Tool.log("包内缓存地址：" + this.getExternalCacheDir());
+        Tool.log("包外部地址：" + Environment.getExternalStorageDirectory());
+        File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Pictures/Screenshots/SVID_20200304_113840_1.mp4");
         if (!file.exists()) {
             Toast.makeText(this , "文件不存在" , Toast.LENGTH_SHORT).show();
             return ;
         }
-        videoView.setVideoPath(file.getAbsolutePath());
+        videoView.setVideoPath(file.getPath());
 
         playVideo.setOnClickListener(new View.OnClickListener() {
             @Override

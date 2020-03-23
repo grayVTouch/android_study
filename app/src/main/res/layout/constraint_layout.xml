@@ -25,18 +25,6 @@
             app:layout_constraintHorizontal_bias="0.5"
             />
 
-        <TextView
-            android:id="@+id/textView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:alpha="1"
-            android:text="注册"
-            android:textAllCaps="false"
-            android:textSize="30sp"
-            android:visibility="gone"
-            app:layout_constraintStart_toStartOf="parent"
-            tool:layout_editor_absoluteY="105dp" />
-
         <Button
             android:id="@+id/button_3"
             android:layout_width="wrap_content"
@@ -253,8 +241,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:isIndicator="false"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/seekBar2" />
+            app:layout_constraintTop_toBottomOf="@+id/seekBar2"
+            android:stepSize="0.1"
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

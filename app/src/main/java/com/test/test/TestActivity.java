@@ -10,5 +10,12 @@ public class TestActivity extends AppCompatActivity
     {
         super.onCreate(bundle);
         this.setContentView(R.layout.test);
+
+        this.run();
+    }
+
+    public void run()
+    {
+
     }
 }

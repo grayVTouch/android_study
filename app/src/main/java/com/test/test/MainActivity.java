@@ -478,4 +478,10 @@ public class MainActivity extends AppCompatActivity
         Intent intent = new Intent(this , AttrAnimationActivity.class);
         this.startActivity(intent);
     }
+
+    public void openResActivity(View v)
+    {
+        Intent intent = new Intent(this , StyleActivity.class);
+        this.startActivity(intent);
+    }
 }

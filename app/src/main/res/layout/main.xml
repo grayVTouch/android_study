@@ -65,6 +65,15 @@
                 android:textSize="16sp"
                 android:onClick="openAttrAnimationActivity"
                 />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="资源使用"
+                android:textAllCaps="false"
+                android:textSize="16sp"
+                android:onClick="openResActivity"
+                />
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
