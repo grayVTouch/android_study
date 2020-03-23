@@ -93,7 +93,8 @@ public class ConstraintLayoutActivity extends AppCompatActivity
 //        File file = new File(this.getExternalCacheDir() , "sister.mkv");
         Tool.log("包内缓存地址：" + this.getExternalCacheDir());
         Tool.log("包外部地址：" + Environment.getExternalStorageDirectory());
-        File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Pictures/Screenshots/SVID_20200304_113840_1.mp4");
+        File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/test.mp4");
+        Tool.log("完整地址：" + Environment.getExternalStorageDirectory().getAbsolutePath() + "/test.mp4");
         if (!file.exists()) {
             Toast.makeText(this , "文件不存在" , Toast.LENGTH_SHORT).show();
             return ;
