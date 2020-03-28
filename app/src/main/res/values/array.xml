@@ -19,4 +19,12 @@
         <item>第二项</item>
         <item>第三项</item>
     </string-array>
+
+    <string-array name="test">
+        <item>请选择...</item>
+        <item>PHP</item>
+        <item>Java</item>
+        <item>Android</item>
+        <item>IOS</item>
+    </string-array>
 </resources>

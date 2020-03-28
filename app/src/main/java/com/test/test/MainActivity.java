@@ -10,7 +10,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
-import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -290,7 +289,7 @@ public class MainActivity extends AppCompatActivity
     {
         // 您应该是中使用显式的 intent 来启动服务
         Intent intent = new Intent(this , TestService.class);
-        intent.putExtra("type" , "background");
+        intent.putExtra("type" , "image_02");
         this.startService(intent);
         Tool.snackbar(v , "后台服务已经启动，请在 ide logcat 中查看运行日志");
     }
@@ -482,6 +481,56 @@ public class MainActivity extends AppCompatActivity
     public void openResActivity(View v)
     {
         Intent intent = new Intent(this , StyleActivity.class);
+        this.startActivity(intent);
+    }
+
+    public void openCameraXActivity(View view)
+    {
+        Intent intent = new Intent(this , CameraX.class);
+        this.startActivity(intent);
+    }
+
+    public void openDividerActivity(View view)
+    {
+        Intent intent = new Intent(this , DividerActivity.class);
+        this.startActivity(intent);
+    }
+
+
+    public void openGuidelineActivity(View view)
+    {
+        Intent intent = new Intent(this , GuidelineActivity.class);
+        this.startActivity(intent);
+    }
+
+    public void openNavActivity(View view)
+    {
+        Intent intent = new Intent(this , NavActivity.class);
+        this.startActivity(intent);
+    }
+
+    public void openViewModelActivity(View view)
+    {
+        Intent intent = new Intent(this , ViewModelActivity.class);
+        this.startActivity(intent);
+    }
+
+    public void openDataBindingActivity(View view)
+    {
+        Intent intent = new Intent(this , DataBindingActivity.class);
+        this.startActivity(intent);
+    }
+
+    public void openEventActivity(View view)
+    {
+        Intent intent = new Intent(this , EventActivity.class);
+        this.startActivity(intent);
+    }
+
+
+    public void openSliderActivity(View view)
+    {
+        Intent intent = new Intent(this , SliderActivity.class);
         this.startActivity(intent);
     }
 }

@@ -4,9 +4,9 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">#CA991A</item>
-        <item name="colorPrimaryDark">#D31C1C</item>
-        <item name="colorAccent">#D3188F</item>
+        <item name="colorPrimary">#EC1EA7</item>
+        <item name="colorPrimaryDark">#EC1EA7</item>
+        <item name="colorAccent">#29DC15</item>
     </style>
 
     <style name="green_text" parent="TextAppearance.AppCompat">
@@ -40,6 +40,10 @@
 
     <style name="button">
         <item name="android:background">@drawable/none_border</item>
+    </style>
+
+    <style name="none_border" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:stateListAnimator">@null</item>
     </style>
 
 </resources>

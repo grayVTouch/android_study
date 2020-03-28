@@ -27,10 +27,34 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             >
+
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="ui 大熔炉"
+                android:text="事件"
+                android:textAllCaps="false"
+                android:onClick="openEventActivity"
+                />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="轮播图"
+                android:textAllCaps="false"
+                android:onClick="openSliderActivity"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="测试 test"
                 android:textAllCaps="false"
                 android:textSize="16sp"
                 android:onClick="openTestActivity"
@@ -74,7 +98,63 @@
                 android:textSize="16sp"
                 android:onClick="openResActivity"
                 />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="cameraX"
+                android:textAllCaps="false"
+                android:onClick="openCameraXActivity"
+                />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="divider"
+                android:textAllCaps="false"
+                android:onClick="openDividerActivity"
+                />
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="guideline"
+                android:textAllCaps="false"
+                android:textSize="16sp"
+                android:onClick="openGuidelineActivity"
+                />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="底部导航栏"
+                android:textAllCaps="false"
+                android:textSize="16sp"
+                android:onClick="openNavActivity"
+                />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="view model"
+                android:textAllCaps="false"
+                android:onClick="openViewModelActivity"
+                />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="data binding"
+                android:textAllCaps="false"
+                android:onClick="openDataBindingActivity"
+                />
+        </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

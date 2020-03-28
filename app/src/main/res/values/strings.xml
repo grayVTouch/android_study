@@ -4,4 +4,10 @@
     <string name="app_name">test</string>
     <string name="title">测试App</string>
     <string name="mnmnm">下拉刷新</string>
+
+
+    <string name="home">下拉刷新</string>
+    <string name="channel">频道</string>
+    <string name="dynamic">动态</string>
+    <string name="vip">会员购</string>
 </resources>

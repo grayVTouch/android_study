@@ -7,6 +7,8 @@ import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import java.text.DecimalFormat;
+
 public class Tool
 {
     public static boolean snackbar(View v , String msg , String time)
@@ -52,5 +54,33 @@ public class Tool
     public static void tip(Context context , String msg)
     {
         Toast.makeText(context , msg , Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * dp 转 px
+     * @param context
+     * @param dp
+     * @return double
+     */
+    public static double dpToPx(Context context, double dp) {
+        final double scale = context.getResources().getDisplayMetrics().density;
+        final double res = dp * scale;
+        DecimalFormat decimalFormat = new DecimalFormat("0.00");
+        String resForStr = decimalFormat.format(res);
+        return Double.valueOf(resForStr);
+    }
+
+    /**
+     * px 转 dp
+     * @param context
+     * @param px
+     * @return double
+     */
+    public static double pxToDp(Context context, double px) {
+        final double scale = context.getResources().getDisplayMetrics().density;
+        final double res = px / scale;
+        DecimalFormat decimalFormat = new DecimalFormat("0.00");
+        String resForStr = decimalFormat.format(res);
+        return Double.valueOf(resForStr);
     }
 }

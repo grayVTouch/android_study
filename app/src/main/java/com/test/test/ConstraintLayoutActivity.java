@@ -100,7 +100,6 @@ public class ConstraintLayoutActivity extends AppCompatActivity
             return ;
         }
         videoView.setVideoPath(file.getPath());
-
         playVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)

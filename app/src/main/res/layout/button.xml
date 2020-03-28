@@ -48,11 +48,21 @@
                 android:layout_height="wrap_content"
                 android:text="无边框按钮"
                 />
+
             <Button
                 android:text="无边框按钮"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/button"
+                style="?android:attr/borderlessButtonStyle"
+                />
+
+            <Button
+                android:text="无边框按钮"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/my_state"
+                android:layout_marginStart="50dp"
+                style="@style/none_border"
                 />
         </LinearLayout>
 

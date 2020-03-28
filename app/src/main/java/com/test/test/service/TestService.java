@@ -51,7 +51,7 @@ public class TestService extends Service
             this.startForeground(Tool.random() , notification);
             Tool.log("启动 foreground 服务");
         } else {
-            Tool.log("启动 background 服务");
+            Tool.log("启动 image_02 服务");
         }
         return Service.START_STICKY;
     }

@@ -8,6 +8,10 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-feature
+        android:name="android.permission.CAMERA"
+        android:required="true"
+        />
 
     <application
         android:allowBackup="true"
@@ -92,6 +96,14 @@
         <activity android:name=".TableLayoutActivity" />
         <activity android:name=".AttrAnimationActivity" />
         <activity android:name=".StyleActivity" />
+        <activity android:name=".CameraX" />
+        <activity android:name=".DividerActivity" />
+        <activity android:name=".GuidelineActivity" />
+        <activity android:name=".NavActivity" />
+        <activity android:name=".ViewModelActivity" />
+        <activity android:name=".DataBindingActivity" />
+        <activity android:name=".EventActivity" />
+        <activity android:name=".SliderActivity" />
 
     </application>
 </manifest>

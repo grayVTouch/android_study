@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+    <item
+        android:id="@+id/home"
+        android:icon="@drawable/home"
+        android:title="@string/home"
+        />
+
+    <item
+        android:id="@+id/channel"
+        android:icon="@drawable/channel"
+        android:title="@string/channel"
+        />
+
+    <item
+        android:id="@+id/dynamic"
+        android:icon="@drawable/dynamic"
+        android:title="@string/dynamic"
+        />
+
+    <item
+        android:id="@+id/vip"
+        android:icon="@drawable/vip"
+        android:title="@string/vip"
+        />
+</menu>
