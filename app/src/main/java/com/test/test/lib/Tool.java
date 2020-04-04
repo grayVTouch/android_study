@@ -2,6 +2,7 @@ package com.test.test.lib;
 
 import android.content.Context;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
@@ -78,5 +79,37 @@ public class Tool
         final float scale = context.getResources().getDisplayMetrics().density;
         final float res = px / scale;
         return (int) res;
+    }
+
+    /**
+     * 获取事件名称
+     */
+    public static String getEventName(int action)
+    {
+        switch (action)
+        {
+            case MotionEvent.ACTION_BUTTON_PRESS:
+                return "ACTION_BUTTON_PRESS";
+            case MotionEvent.ACTION_BUTTON_RELEASE:
+                return "ACTION_BUTTON_RELEASE";
+            case MotionEvent.ACTION_DOWN:
+                return "ACTION_DOWN";
+            case MotionEvent.ACTION_UP:
+                return "ACTION_UP";
+            case MotionEvent.ACTION_CANCEL:
+                return "ACTION_CANCEL";
+            case MotionEvent.ACTION_HOVER_ENTER:
+                return "ACTION_HOVER_ENTER";
+            case MotionEvent.ACTION_HOVER_EXIT:
+                return "ACTION_HOVER_EXIT";
+            case MotionEvent.ACTION_OUTSIDE:
+                return "ACTION_OUTSIDE";
+            case MotionEvent.ACTION_POINTER_DOWN:
+                return "ACTION_POINTER_DOWN";
+            case MotionEvent.ACTION_MOVE:
+                return "ACTION_MOVE";
+            default:
+                return "unknow";
+        }
     }
 }
