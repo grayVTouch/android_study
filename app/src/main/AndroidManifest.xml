@@ -104,6 +104,8 @@
         <activity android:name=".DataBindingActivity" />
         <activity android:name=".EventActivity" />
         <activity android:name=".SliderActivity" />
+        <activity android:name=".FragmentActivity" />
+        <activity android:name=".ViewPagerActivity" />
 
     </application>
 </manifest>

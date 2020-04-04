@@ -12,7 +12,6 @@ public class TopLinearLayout extends LinearLayout
 
     public TopLinearLayout(Context context)
     {
-        // 要求必须有这个
         super(context);
     }
 
@@ -25,7 +24,9 @@ public class TopLinearLayout extends LinearLayout
     @Override
     public boolean dispatchTouchEvent(MotionEvent event)
     {
-//        Tool.log("top dispatch touch event");
+//        Tool.log("event: dispatch touch event");
+
+        // 一定要调用该方法，否则 事件分发 无法继续 执行
         super.dispatchTouchEvent(event);
         return true;
     }
@@ -34,9 +35,8 @@ public class TopLinearLayout extends LinearLayout
     @Override
     public boolean onInterceptTouchEvent(MotionEvent event)
     {
-//        Tool.log("top on intercept touch event");
+//        Tool.log("event: on intercept touch event");
         super.onInterceptTouchEvent(event);
-//        return false;
         return false;
     }
 
@@ -44,8 +44,7 @@ public class TopLinearLayout extends LinearLayout
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {
-//        Tool.log("top on touch event");
-        super.onTouchEvent(event);
-        return true;
+        Tool.log("event: on touch event");
+        return false;
     }
 }

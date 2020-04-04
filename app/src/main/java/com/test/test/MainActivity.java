@@ -36,6 +36,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
 
+import com.test.test.FragmentActivity;
+
 public class MainActivity extends AppCompatActivity
 {
     public void onCreate(Bundle bundle)
@@ -531,6 +533,19 @@ public class MainActivity extends AppCompatActivity
     public void openSliderActivity(View view)
     {
         Intent intent = new Intent(this , SliderActivity.class);
+        this.startActivity(intent);
+    }
+
+    public void openFragmentActivity(View view)
+    {
+        Intent intent = new Intent(this , FragmentActivity.class);
+        this.startActivity(intent);
+    }
+
+
+    public void openViewPagerActivity(View view)
+    {
+        Intent intent = new Intent(this , ViewPagerActivity.class);
         this.startActivity(intent);
     }
 }
