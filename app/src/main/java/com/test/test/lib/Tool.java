@@ -62,12 +62,10 @@ public class Tool
      * @param dp
      * @return double
      */
-    public static double dpToPx(Context context, double dp) {
-        final double scale = context.getResources().getDisplayMetrics().density;
-        final double res = dp * scale;
-        DecimalFormat decimalFormat = new DecimalFormat("0.00");
-        String resForStr = decimalFormat.format(res);
-        return Double.valueOf(resForStr);
+    public static int dpToPx(Context context, int dp) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        final float res = dp * scale;
+        return (int) res;
     }
 
     /**
@@ -76,11 +74,9 @@ public class Tool
      * @param px
      * @return double
      */
-    public static double pxToDp(Context context, double px) {
-        final double scale = context.getResources().getDisplayMetrics().density;
-        final double res = px / scale;
-        DecimalFormat decimalFormat = new DecimalFormat("0.00");
-        String resForStr = decimalFormat.format(res);
-        return Double.valueOf(resForStr);
+    public static int pxToDp(Context context, int px) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        final float res = px / scale;
+        return (int) res;
     }
 }

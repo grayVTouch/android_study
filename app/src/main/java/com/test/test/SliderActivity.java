@@ -1,13 +1,19 @@
 package com.test.test;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -18,102 +24,211 @@ import com.test.test.view.TopLinearLayout;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.function.Consumer;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 public class SliderActivity extends AppCompatActivity
 {
     @Override
     protected void onCreate(Bundle bundle)
     {
+        Tool.log("app on create");
         super.onCreate(bundle);
         this.setContentView(R.layout.slider);
         this.run();
     }
 
+    private int count = 1;
+
     public void run()
     {
-        // 尺寸学习
-        this.measure();
-
-        //
+        final SliderActivity self = this;
         ArrayList<ImageView> imageList = new ArrayList<>();
         int min = 1;
         int max = 5;
-        for (int i = min; i <= max; ++i)
-        {
-            int resId = this.getResources().getIdentifier("image_0" + i , "id" , this.getPackageName());
+        for (int i = min; i <= max; ++i) {
+            int resId = this.getResources().getIdentifier("image_0" + i, "id", this.getPackageName());
             ImageView imageView = this.findViewById(resId);
             imageList.add(imageView);
         }
 
+        ConstraintLayout container = this.findViewById(R.id.container);
+//        HorizontalScrollView outer = this.findViewById(R.id.slider_outer);
+        LinearLayout outer = this.findViewById(R.id.slider_outer);
+        LinearLayout inner = this.findViewById(R.id.slider_inner);
+        Button next = this.findViewById(R.id.next);
+        Button prev = this.findViewById(R.id.prev);
 
-        //
-    }
-
-    public void measure()
-    {
-        LinearLayout linearLayout = this.findViewById(R.id.image_list);
-
-        /**
-         * 貌似这些都是针对子布局进行设置的，不太清楚这边子视图进行的设置究竟是什么含义
-         *
-         * 1. UNSPECIFIED 表示子布局的尺寸想要多大就能多大
-         * 2. AT_MOST 表示子布局被限制在一个最大值内，当 childView 或 view 被设置成 wrap_content 的时候设置
-         * 3. EXACTLY 表示设置精确的值，当 view 或 childView 的宽 / 高 被设置为 match_parent 的时候请设置
-         *
-         * 结论就是，通过以上设置获取的相关测量尺寸的方式，通常都是不准确的
-         */
-        int width = View.MeasureSpec.makeMeasureSpec(0 , View.MeasureSpec.UNSPECIFIED);
-        int height = View.MeasureSpec.makeMeasureSpec(0 , View.MeasureSpec.UNSPECIFIED);
-
-        linearLayout.measure(width , height);
-
-        // 获取容器宽度
-        float conWidth = linearLayout.getWidth();
-
-        Tool.log("LinearLayout width：" + linearLayout.getWidth());
-        Tool.log("LinearLayout height：" + linearLayout.getHeight());
-
-        // 方法1
-        // 注意通过 getWidth | getHeight | getMeasuredWidth | getMeasuredHeight 等方法获取到的
-        // 相关参数值，单位都是 px
-        Tool.log("LinearLayout measured width：" + Tool.pxToDp(this , linearLayout.getMeasuredWidth()));
-        Tool.log("LinearLayout measured height：" + Tool.pxToDp(this , linearLayout.getMeasuredHeight()));
-
-        final SliderActivity self = this;
-
-        // 方法二： 通过添加 视图树 的观察器 来设置
-        linearLayout.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+        container.post(new Runnable() {
             @Override
-            public boolean onPreDraw()
+            public void run()
             {
-                // 移除视图监听器
-                linearLayout.getViewTreeObserver().removeOnPreDrawListener(this);
-                Tool.log("Observer 中获取到的视图 宽度： " + linearLayout.getWidth() + "；转换为 dp：" + Tool.pxToDp(self , linearLayout.getWidth()));
-                Tool.log("Observer 中获取到的视图 高度：" + linearLayout.getHeight() + "；转换为 dp：" + Tool.pxToDp(self , linearLayout.getHeight()));
-                return true;
+                int singleMaxWForPx = outer.getWidth();
+                int singleMaxHForPx = outer.getHeight();
+                int paddingStart = outer.getPaddingStart();
+                int paddingEnd = outer.getPaddingEnd();
+                int paddingTop = outer.getPaddingTop();
+                int paddingBottom = outer.getPaddingBottom();
+
+                int singleWForPx = singleMaxWForPx - paddingStart - paddingEnd;
+                int singleHForPx = singleMaxHForPx - paddingTop -paddingBottom;
+
+                int singleMaxW = Tool.pxToDp(self , singleMaxWForPx);
+                int singleMaxH = Tool.pxToDp(self , singleMaxHForPx);
+
+//                Tool.log("singleMaxW: " + singleMaxW + "; singleMaxH: " + singleMaxH);
+//                Tool.log("singleMaxW int: " + singleMaxWForPx + "; singleMaxH int: " + singleMaxHForPx + "; outer padding start: " + outer.getPaddingStart() + "; outer padding end: " + outer.getPaddingEnd());
+
+//                inner.setLayoutParams(new HorizontalScrollView.LayoutParams(singleWForPx * (imageList.size() - 2) , HorizontalScrollView.LayoutParams.MATCH_PARENT));
+                inner.setLayoutParams(new LinearLayout.LayoutParams(singleWForPx * imageList.size() , LinearLayout.LayoutParams.MATCH_PARENT));
+
+                Tool.log("singleWForPx: " + singleWForPx + "; imageSize: " + imageList.size() + "; inner width: " + singleWForPx * (imageList.size() - 1));
+
+                // 当前图片索引计数
+                class Data {
+                    public int maxIndex;
+                    public int index;
+                    public int minIndex;
+                    public int minX;
+                    public int maxX;
+                    public boolean animationEnd = true;
+
+                    public Data()
+                    {
+                        this.maxIndex = imageList.size() - 2;
+                        this.minIndex = 1;
+                        this.index = 1;
+                        this.minX = -(imageList.size() - 1) * singleWForPx;
+                        this.maxX = 0;
+
+                    }
+                }
+                Data data = new Data();
+
+                ArrayList<Integer> position = new ArrayList<>();
+                for (int i = 0; i < imageList.size(); ++i)
+                {
+                    // 注意这边单位用的是 px
+                    imageList.get(i).setLayoutParams(new LinearLayout.LayoutParams(singleWForPx , ViewGroup.LayoutParams.MATCH_PARENT));
+                    position.add(-(i + 1) * singleWForPx);
+                }
+                // 正确显示第一个元素
+                inner.setTranslationX(position.get(data.index - 1));
+
+                next.setOnClickListener((View view) -> {
+                    if (!data.animationEnd) {
+                        Tool.log("next 动画进行中，不可操作");
+                        return ;
+                    }
+                    int index = data.index + 1;
+                    final int oIndex = index;
+                    float endX;
+                    if (index > data.maxIndex) {
+                        index = data.minIndex;
+                        endX = data.minX;
+                    } else {
+                        endX = position.get(index - 1);
+                    }
+                    Tool.log("更新后的索引：" + index + "; 目标 translationX: " + endX);
+                    final int copyIndex = index;
+                    ObjectAnimator animator = ObjectAnimator.ofFloat(inner , "translationX" , endX);
+                    animator.setDuration(1000);
+                    animator.addListener(new Animator.AnimatorListener() {
+                        @Override
+                        public void onAnimationStart(Animator animator)
+                        {
+                            // 当动画开始的时候触发
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animator animator)
+                        {
+                            // 当动画结束的时候触发
+                            // 动画结束的时候更新当前索引
+                            data.index = copyIndex;
+                            if (oIndex > data.maxIndex) {
+                                // 直接将当前位置指向索引为 最小的位置
+                                int endX = position.get(1 - 1);
+                                inner.setTranslationX(endX);
+                            }
+                            data.animationEnd = true;
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animator animator)
+                        {
+                            // 动画重复执行的时候触发
+                        }
+
+                        @Override
+                        public void onAnimationCancel(Animator animator)
+                        {
+                            // 当动画被取消的时候触发
+                        }
+                    });
+                    data.animationEnd = false;
+                    animator.start();
+                });
+
+                prev.setOnClickListener((View view) -> {
+                    if (!data.animationEnd) {
+                        Tool.log("prev 动画进行中，不可操作");
+                        return ;
+                    }
+                    int index = data.index - 1;
+                    final int oIndex = index;
+                    float endX;
+                    if (index < data.minIndex) {
+                        index = data.maxIndex;
+                        endX = data.maxX;
+                    } else {
+                        endX = position.get(index - 1);
+                    }
+                    Tool.log("更新后的索引：" + index + "; 目标 translationX: " + endX);
+                    final int copyIndex = index;
+                    ObjectAnimator animator = ObjectAnimator.ofFloat(inner , "translationX" , endX);
+                    animator.setDuration(1000);
+                    animator.addListener(new Animator.AnimatorListener() {
+                        @Override
+                        public void onAnimationStart(Animator animator)
+                        {
+                            // 当动画开始的时候触发
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animator animator)
+                        {
+                            // 当动画结束的时候触发
+                            // 动画结束的时候更新当前索引
+                            data.index = copyIndex;
+                            if (oIndex < data.minIndex) {
+                                // 直接将当前位置指向索引为 最小的位置
+                                int endX = position.get(data.maxIndex - 1);
+                                inner.setTranslationX(endX);
+                            }
+                            data.animationEnd = true;
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animator animator)
+                        {
+                            // 动画重复执行的时候触发
+                        }
+
+                        @Override
+                        public void onAnimationCancel(Animator animator)
+                        {
+                            // 当动画被取消的时候触发
+                        }
+                    });
+                    data.animationEnd = false;
+                    animator.start();
+                });
             }
         });
 
 
-        // 方法三： 添加全局的监听器
-        linearLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout()
-            {
-                // 移除事件监听
-                linearLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                Tool.log("linear layout width: px=" + linearLayout.getWidth() + "; dp= " + Tool.pxToDp(self , linearLayout.getWidth()));
-            }
-        });
-
-        // 方法四： 重写 view 的 onSizeChanged 方法
-        // 方法五：重写 view 的 onLayout 方法
-        // 方法六： 注册 view 的 addOnLayoutChangeListener 方法，实现 onLayoutChange 方法
-
     }
-
-
-
 }
