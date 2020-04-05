@@ -6,6 +6,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.test.test.databinding.DataBindingBinding;
 import com.test.test.lib.Tool;
 import com.test.test.model.MyViewModel;
 
@@ -20,7 +21,8 @@ public class DataBindingActivity extends AppCompatActivity
     protected void onCreate(Bundle bundle)
     {
         super.onCreate(bundle);
-//        ActivityMainBinding binding = DataBindingUtil.setContentView(this , R.layout.data_binding);
+        DataBindingBinding binding = DataBindingUtil.setContentView(this , R.layout.data_binding);
+//        binding.test
         this.run();
     }
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<LniearLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tool="http://schemas.android.com/tools"
@@ -7,10 +7,65 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     >
+    <com.google.android.material.tabs.TabLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tab_layout"
+        >
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tab_01"
+            android:text="直播"
+            />
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="推荐"
+            android:id="@+id/tab_02"
+            />
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="追番"
+            android:id="@+id/tab_03"
+            />
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="热门"
+            android:id="@+id/tab_04"
+            />
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="影视"
+            android:id="@+id/tab_05"
+            />
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="抗疫"
+            android:id="@+id/tab_06"
+            />
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="学习区"
+            android:id="@+id/tab_07"
+            />
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="新时代"
+            android:id="@+id/tab_08"
+            />
+    </com.google.android.material.tabs.TabLayout>
+
     <androidx.viewpager.widget.ViewPager
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/view_pager"
         />
 
-</LniearLayout>
+</LinearLayout>
