@@ -1,15 +1,21 @@
 package com.test.test;
 
+import android.animation.Animator;
+import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.test.test.lib.Tool;
+
+import java.util.HashMap;
 
 public class AttrAnimationActivity extends AppCompatActivity
 {
@@ -99,9 +105,102 @@ public class AttrAnimationActivity extends AppCompatActivity
         });
     }
 
+    private void startAnimatorManager()
+    {
+        Button btn = this.findViewById(R.id.animator_manager);
+        ImageView image = this.findViewById(R.id.image);
+
+        ObjectAnimator showForAlpha = ObjectAnimator.ofFloat(image , "alpha" , 1);
+        ObjectAnimator hideForAlpha = ObjectAnimator.ofFloat(image , "alpha" , 0);
+        ObjectAnimator down = ObjectAnimator.ofFloat(image , "translationY" , 500);
+        ObjectAnimator up = ObjectAnimator.ofFloat(image , "translationY" , 0);
+
+        showForAlpha.setDuration((long) (0.5 * 1000));
+        hideForAlpha.setDuration(1 * 1000);
+        down.setDuration((long) (1.5 * 1000));
+        up.setDuration(2 * 1000);
+
+        HashMap<String,String> map = new HashMap<>();
+        map.put("status" , "show");
+
+        btn.setOnClickListener((View view) -> {
+            AnimatorSet set = new AnimatorSet();
+            if (map.get("status") == "show") {
+                map.put("status" , "hide");
+                set.play(hideForAlpha).with(down);
+                set.start();
+                return ;
+            }
+            map.put("status" , "show");
+            // 动画播放顺序
+            set.play(showForAlpha).with(up);
+            // 链式动画开始运行
+            set.start();
+        });
+
+        // 监听动画过程中的重要事件
+        down.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+    }
+
+    private void startLayoutAnimation()
+    {
+        Button btn = this.findViewById(R.id.layout_animation);
+        LinearLayout layout = this.findViewById(R.id.layout);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                layout.setVisibility(View.INVISIBLE);
+            }
+        });
+    }
+
+    private void startXmlAnimation()
+    {
+        ImageView image = this.findViewById(R.id.image_animator);
+        Button btn = this.findViewById(R.id.xml_animator_btn);
+
+        btn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v)
+            {
+                AnimationDrawable animator = (AnimationDrawable) image.getBackground();
+                // 开始动画
+                animator.start();
+
+            }
+        });
+
+
+    }
+
     private void run()
     {
         this.startValueAnimator();
         this.startObjectAnimator();
+        this.startAnimatorManager();
+        this.startLayoutAnimation();
+        this.startXmlAnimation();
     }
 }

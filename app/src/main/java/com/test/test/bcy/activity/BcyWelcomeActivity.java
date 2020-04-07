@@ -1,6 +1,8 @@
 package com.test.test.bcy.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -28,6 +30,16 @@ public class BcyWelcomeActivity extends AppCompatActivity
     protected void onCreate(Bundle bundle)
     {
         super.onCreate(bundle);
+        // 检查是否已经对用户显示过欢迎页
+        SharedPreferences storage = this.getPreferences(Context.MODE_PRIVATE);
+        int welcomeOnce = storage.getInt("welcome_once" , 0);
+        if (welcomeOnce > 0) {
+            // 已经显示过欢迎页了，直接进入到半次元首页
+            Intent intent = new Intent(this , BcyAppActivity.class);
+            this.startActivity(intent);
+            return ;
+        }
+
         // 设置全屏
         try {
             Tool.fullscreen(this , "sticky");

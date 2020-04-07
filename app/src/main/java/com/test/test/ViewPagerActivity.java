@@ -33,6 +33,22 @@ public class ViewPagerActivity extends AppCompatActivity
 
         ViewPager viewPager = this.findViewById(R.id.view_pager);
         viewPager.setAdapter(new ViewPagerActivity.ViewPagerAdapter(this));
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                Tool.log("position: " + position + ";page change amount: " + positionOffset + "; px: " + positionOffsetPixels);
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     static class A extends PagerAdapter {

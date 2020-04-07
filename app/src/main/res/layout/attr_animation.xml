@@ -1,39 +1,86 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<LinearLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tool="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:animateLayoutChanges
+            ="true"
+        android:id="@+id/layout"
+        >
 
-    <ImageView
-        android:id="@+id/image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:contentDescription="测试图片"
-        android:src="@drawable/logo"
-        />
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:contentDescription="测试图片"
+            android:src="@drawable/logo"
+            />
 
-    <Button
-        android:id="@+id/start_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="开始动画 ValueAnimator"
-        android:layout_gravity="center"
-        android:textAllCaps="false"
-        android:textAlignment="center"
-        />
+        <Button
+            android:id="@+id/start_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="开始动画 ValueAnimator"
+            android:layout_gravity="center"
+            android:textAllCaps="false"
+            android:textAlignment="center"
+            />
 
-    <Button
-        android:id="@+id/obj_animator"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="开始 ObjectAnimator"
-        android:textAllCaps="false"
-        android:layout_gravity="center"
-        />
+        <Button
+            android:id="@+id/obj_animator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="开始 ObjectAnimator"
+            android:textAllCaps="false"
+            android:layout_gravity="center"
+            />
 
-</LinearLayout>
+        <Button
+            android:id="@+id/animator_manager"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="多属性动画"
+            android:textAllCaps="false"
+            android:layout_gravity="center"
+            />
+
+        <Button
+            android:id="@+id/layout_animation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="布局更新动画"
+            android:textAllCaps="false"
+            android:layout_gravity="center"
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="selector 状态列表定义的动画"
+            android:textAllCaps="false"
+            android:stateListAnimator="@xml/animate_scale"
+            />
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/animator_one"
+            android:id="@+id/image_animator"
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/xml_animator_btn"
+            android:text="开始 xml 动画"
+            />
+    </LinearLayout>
+</ScrollView>

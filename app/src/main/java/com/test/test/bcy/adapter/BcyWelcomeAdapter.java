@@ -1,6 +1,8 @@
 package com.test.test.bcy.adapter;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -91,7 +93,13 @@ public class BcyWelcomeAdapter extends PagerAdapter
                         intent = new Intent(self.activity , MainActivity.class);
                     } else if (position == maxPosition) {
                         // 最后一页
+                        // 进入到 仿半次元首页
+                        // 如果点击后，那么将会设置访问状态
                         intent = new Intent(self.activity , BcyAppActivity.class);
+                        SharedPreferences storage = self.activity.getPreferences(Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = storage.edit();
+                        editor.putInt("welcome_once" , 1);
+                        editor.commit();
                     } else {
                         // 其他情况，后续补充...
                         return ;
