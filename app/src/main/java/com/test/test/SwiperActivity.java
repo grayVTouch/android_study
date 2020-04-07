@@ -205,7 +205,22 @@ public class SwiperActivity extends AppCompatActivity
             @Override
             public void onScrollChanged(ScrollView view , int x , int y)
             {
-                Tool.log("垂直滚动距离：" + y + "; 水平滚动距离：" + x);
+                int clientH = scrollView.getHeight();
+                Rect rect = new Rect();
+                // 设置视图尺寸
+                scrollView.getDisplay().getRectSize(rect);
+                // getWindowVisibleRect
+//                Tool.log("left: " + rect.left + "; top: " + rect.top + "; right: " + rect.right + "; bottom: " + rect.bottom);
+                int realH = rect.bottom - rect.top;
+                int scrollH = realH - clientH;
+                // 这个东西获取到的高度是错误的！不正确的！
+                Rect rect1 = new Rect();
+                scrollView.getWindowVisibleDisplayFrame(rect1);
+                int realH1 = rect1.bottom - rect1.top;
+
+
+//                Tool.log("垂直滚动距离：" + y + "; 水平滚动距离：" + x + "; 最大滚动距离：" + scrollH + "; clientH: " + clientH + "; measuredH: " + scrollView.getChildAt(0).getMeasuredHeight());
+                Tool.log("垂直滚动距离：" + y + "; 水平滚动距离：" + x + "; 最大滚动距离：" + (realH1 - clientH) + "; clientH: " + clientH + "; measuredH: " + scrollView.getChildAt(0).getHeight());
             }
         });
     }

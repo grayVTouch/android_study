@@ -41,29 +41,29 @@
             android:id="@+id/linear"
             >
             <ImageView
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
                 android:src="@drawable/logo"
                 android:adjustViewBounds="true"
                 />
 
             <ImageView
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
                 android:src="@drawable/logo"
                 android:adjustViewBounds="true"
                 />
 
             <ImageView
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
                 android:src="@drawable/logo"
                 android:adjustViewBounds="true"
                 />
 
             <ImageView
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
                 android:src="@drawable/logo"
                 android:adjustViewBounds="true"
                 />

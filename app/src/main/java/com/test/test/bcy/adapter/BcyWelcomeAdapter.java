@@ -57,12 +57,12 @@ public class BcyWelcomeAdapter extends PagerAdapter
         View view = inflater.inflate(R.layout.bcy_welcome_view_pager_item, container , false);
         // 数据测试
         ImageView image = view.findViewById(R.id.image);
-        TextView text = view.findViewById(R.id.text);
+//        TextView text = view.findViewById(R.id.text);
         Button button = view.findViewById(R.id.to_main);
 
         BcyWelcomeAdapter.AdapterData data = this.adapterData[position];
         image.setImageResource(data.image);
-        text.setText(data.text);
+//        text.setText(data.text);
 
         BcyWelcomeAdapter self = this;
         int maxPosition = this.adapterData.length - 1;

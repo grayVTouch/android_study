@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- 单个边框设置 -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--
+        设置 stroke 后，请设置 item  的 android:left 等位置属性可以隐藏相应的边框
+        神奇的是，这边还必须设置为 -2dp 才能隐藏边框，否则隐藏不了，这也是一个很令人头疼的问题
+        实际上我设置的 stroke ，也就是 边框宽度 1dp
+        然而需要将他移动 -2dp 才能将边框隐藏，这点非常不好
+    -->
+    <item
+        android:end="-2dp"
+        android:bottom="-2dp"
+        android:start="-2dp"
+        android:top="0dp">
+        <shape>
+            <stroke
+                android:width="1dp"
+                android:color="#D3D3D3"
+                />
+            <solid
+                android:color="#EDEDED"
+                />
+        </shape>
+   </item>
+
+</layer-list>

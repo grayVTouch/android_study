@@ -6,12 +6,54 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center"
     >
-    <TextView
-        android:layout_width="wrap_content"
+    <!-- 每个菜单项对应的内容区域 -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        >
+        <!-- 首页内容 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tab_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="关注"
+                    />
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="发现"
+                    />
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="精选"
+                    />
+
+            </com.google.android.material.tabs.TabLayout>
+        </LinearLayout>
+    </FrameLayout>
+
+    <!-- 底部导航栏 -->
+    <include
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="欢迎来到仿半次元"
-        android:textAllCaps="true"
+        layout="@layout/bcy_app_bottom_nav"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         />
+
+
 </LinearLayout>

@@ -21,12 +21,6 @@ public class ScrollView extends android.widget.ScrollView
     // 滚动改变
     private ScrollView.OnScrollViewListener onScrollChangeWithSumListener;
 
-    // x 水平方向上的滚动量
-    private int amountX = 0;
-
-    // y 垂直方向上的滚动量
-    private int amountY = 0;
-
     public void setOnScrollChangeListener(ScrollView.OnScrollViewListener listener)
     {
         this.onScrollViewListener = listener;
@@ -46,12 +40,9 @@ public class ScrollView extends android.widget.ScrollView
         }
 
         if (this.onScrollChangeWithSumListener != null) {
-            // x 累计滚动量
-            this.amountX += x;
-            // y 累计滚动量
-            this.amountY += y;
-            // 变化量
-            this.onScrollChangeWithSumListener.onScrollChanged(this , this.amountX , this.amountY);
+            int sumX = this.getScrollX();
+            int sumY = this.getScrollY();
+            this.onScrollChangeWithSumListener.onScrollChanged(this , sumX , sumY);
         }
     }
 
