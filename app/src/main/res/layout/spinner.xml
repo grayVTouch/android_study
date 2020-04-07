@@ -45,4 +45,15 @@
             android:entries="@array/test"
             />
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+        <Spinner
+            android:id="@+id/spinner_adapter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+    </LinearLayout>
 </LinearLayout>

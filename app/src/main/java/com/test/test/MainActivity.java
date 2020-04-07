@@ -25,6 +25,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.test.test.bcy.activity.BcyAppActivity;
+import com.test.test.bcy.activity.BcyWelcomeActivity;
 import com.test.test.bubbles.BubbleActivity;
 
 import com.test.test.lib.Tool;
@@ -35,8 +37,6 @@ import com.test.test.service.TestService;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
-
-import com.test.test.FragmentActivity;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -435,6 +435,12 @@ public class MainActivity extends AppCompatActivity
     public void openDemoActivity(View v)
     {
         Intent intent = new Intent(this , DemoActivity.class);
+        this.startActivity(intent);
+    }
+
+    public void openBcyActivity(View v)
+    {
+        Intent intent = new Intent(this , BcyWelcomeActivity.class);
         this.startActivity(intent);
     }
 

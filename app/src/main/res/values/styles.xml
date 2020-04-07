@@ -46,4 +46,34 @@
         <item name="android:stateListAnimator">@null</item>
     </style>
 
+    <!-- 启动页 样式设置 -->
+    <!--
+      1. Theme.AppCompat.Light.NoActionBar 是必须设置的！否则会带有 应用栏
+      2. 无需理会 android:windowLayoutInDisplayCutoutMode="shortEdges"
+
+      -->
+    <style name="theme_bcy_app" parent="Theme.AppCompat.Light.NoActionBar">
+
+        <item name="android:windowBackground">@drawable/bcy_launcher_xml</item>
+
+<!--        <item name="windowNoTitle">true</item>-->
+<!--        <item name="windowActionBar">false</item>-->
+
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <!-- 设置window过度效果 禁用窗口的预览动画 -->
+        <item name="android:windowDisablePreview">false</item>
+        <!-- 异形屏适配 不用理会错误信息 -->
+        <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
+        <!-- 在5.0后，增加了一个windowDrawsSystemBarBackgrounds属性，用来标志此窗口是否负责绘制系统栏背景，
+   我们把它设成false，这样当它绘制windowBackground的时候，就会在NavigationBar之上。-->
+        <item name="android:windowDrawsSystemBarBackgrounds">false</item>
+
+        <!-- 设置窗口半透明；不建议设置；会导致启动有明显的卡顿感觉-->
+        <item name="android:windowIsTranslucent">false</item>
+
+<!--        <item name="android:windowActionBarOverlay">@null</item>-->
+    </style>
+    
+
 </resources>

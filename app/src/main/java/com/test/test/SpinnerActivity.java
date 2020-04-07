@@ -25,6 +25,8 @@ public class SpinnerActivity extends AppCompatActivity
 
         // 添加下拉选项选择事件
         Spinner two = this.findViewById(R.id.two);
+
+
         two.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent , View v , int pos , long id)
             {
@@ -40,5 +42,12 @@ public class SpinnerActivity extends AppCompatActivity
                 Tool.snackbar(two , "你什么也没有选择");
             }
         });
+
+        this.run();
+    }
+
+    public void run()
+    {
+        
     }
 }

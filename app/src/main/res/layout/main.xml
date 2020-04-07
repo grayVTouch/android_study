@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     >
+
     <LinearLayout
         android:id="@+id/layout"
         android:layout_width="match_parent"
@@ -21,6 +22,31 @@
             android:textAllCaps="false"
             android:layout_gravity="center"
             />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            >
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="学习成果综合展示"
+                android:textColor="#DD2727"
+                android:textAllCaps="false"
+                android:onClick="openDemoActivity"
+                />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="仿半次元 App"
+                android:textColor="#DD2727"
+                android:textAllCaps="false"
+                android:onClick="openBcyActivity"
+                />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -572,22 +598,6 @@
                 android:layout_weight="1"
                 android:text="内容提供程序：查询"
                 android:onClick="queryForContentProvider"
-                />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            >
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="学习成果综合展示"
-                android:textColor="#DD2727"
-                android:textAllCaps="false"
-                android:onClick="openDemoActivity"
                 />
         </LinearLayout>
 

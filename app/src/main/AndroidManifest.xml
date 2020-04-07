@@ -19,15 +19,17 @@
         android:label="陈学龙"
         android:roundIcon="@drawable/round_logo"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:largeHeap="true"
+        >
         <activity
             android:name=".MainActivity"
             android:alwaysRetainTaskState="true"
             >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
         </activity>
 
         <activity android:name=".TextActivity" />
@@ -106,6 +108,30 @@
         <activity android:name=".SliderActivity" />
         <activity android:name=".FragmentActivity" />
         <activity android:name=".ViewPagerActivity" />
+
+
+        <!--
+            android:launchMode
+            1. singleTop ，如果新任务顶部已经存在 activity ，则不会在创建新实例，而是直接复用
+            2. standard   始终创建新的实例
+
+            3. singleTask 任务会在新任务的根位置创建实例
+            4. singleInstance 会创建新实例，当是会把 之前现有的实例都销毁
+        -->
+        <activity
+            android:name=".bcy.activity.BcyWelcomeActivity"
+            android:alwaysRetainTaskState="false"
+            android:screenOrientation="portrait"
+            android:launchMode="standard"
+            android:theme="@style/theme_bcy_app"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".bcy.activity.BcyAppActivity" />
 
     </application>
 </manifest>

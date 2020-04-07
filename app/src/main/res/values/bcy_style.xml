@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<resources>
+    <style name="bcy_welcome_index">
+        <item name="android:layout_width">10dp</item>
+        <item name="android:layout_height">10dp</item>
+        <item name="android:layout_marginEnd">10dp</item>
+        <item name="android:background">@drawable/bcy_welcome_background_border_gray</item>
+    </style>
+</resources>

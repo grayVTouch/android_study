@@ -131,4 +131,20 @@
             />
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="全屏-适配刘海屏"
+            android:onClick="fullscreen_liuhai"
+            />
+
+    </LinearLayout>
+
+
+
 </LinearLayout>

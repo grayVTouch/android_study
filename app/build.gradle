@@ -20,8 +20,21 @@ android {
         }
     }
 
+    // mvvm 模式数据绑定
     dataBinding {
         enabled = true
+    }
+
+    // 自定义目录结构
+    sourceSets {
+        main {
+            res.srcDirs = [
+                    "src/main/res/layout/bcy" ,
+                    "src/main/res/layout/gamesky" ,
+//                    "src/main/res/layout" ,
+                    "src/main/res"
+            ]
+        }
     }
 
     compileOptions {
