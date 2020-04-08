@@ -215,6 +215,7 @@ public class SwiperActivity extends AppCompatActivity
                 int scrollH = realH - clientH;
                 // 这个东西获取到的高度是错误的！不正确的！
                 Rect rect1 = new Rect();
+                // 这个获取到的视图的高度不准确
                 scrollView.getWindowVisibleDisplayFrame(rect1);
                 int realH1 = rect1.bottom - rect1.top;
 
