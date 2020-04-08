@@ -3,6 +3,8 @@ package com.test.test.bcy.activity;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -84,6 +86,8 @@ public class BcyAppActivity extends AppCompatActivity
         };
         TextView[] textViews = new TextView[subject.length];
 
+//        Tool.log("比较结果：" + (1.0 == 1));
+
         // 记录上一个位置，然后根据当前滚动期间给定的位置，进行判断是前进还是后退
         // 根据前进还是后退，来决定对主题底部的线进行移动
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -96,138 +100,130 @@ public class BcyAppActivity extends AppCompatActivity
             // 源：最小的 left
             private int cursorLeft = 0;
 
+            // 源：一般的 marginStart
+            private int halfMarginStart = 0;
+
+            // 是否首次触发
+            private boolean once = true;
+
+            // 当前页面滚动状态
+            private int state;
+
+            private int marginEnd = 0;
+
+            private boolean isFitMaxW = false;
+
+
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels)
             {
-                String dir = "";
+                if (this.once) {
+                    // 他默认会调用一次，请忽略这一次
+                    this.once = false;
+                    return ;
+                }
+//                Tool.log("position: " + position + "; positionOffset: " + positionOffset + "; positionOffsetPixels: " + positionOffsetPixels);
+                int endPosition = position;
                 if (this.position == position) {
-                    if (position == 0) {
-                        // 首页
-                        if (positionOffsetPixels <= 0) {
-                            // 用户正在移动屏幕进行界面切换（方向向右）
-                            return ;
-                        }
-                        dir = "toRight";
-                    } else if (position == subject.length) {
-                        // 最后一页
-                        if (positionOffsetPixels <= 0) {
-                            // 最后一页，并且用户没有往左移动
-                            return ;
-                        }
-                        dir = "toLeft";
-                    } else {
-                        // 其他情况直接跳出
+                    if (positionOffsetPixels <= 0) {
                         return ;
                     }
-                } else {
-                    if (position > this.position) {
-                        dir = "toRight";
+                    if (position == 0) {
+                        endPosition = 1;
                     } else {
-                        dir = "toLeft";
+                        endPosition = Math.max(subject.length - 1 , 1);
                     }
                 }
-                Tool.log("当前用户的滚动方向：" + dir + "; origin_position: " + this.position + "; position: " + position);
-                /**
-                 * 计算游标的最大长度
-                 * 计算游标的 marginEnd 最大值
-                 * 计算游标正常的尺寸（占据的百分比）
-                 *
-                 */
-                TextView text = textViews[position];
-                int textWidth = text.getWidth();
-                // 游标正常的尺寸大小
-                int cursorWidth = this.cursorWidth;
-                // 游标正常尺寸下的 marginEnd 值是多少
-                // 游标在切换后的项里面占据的 marginStart 值
-                int marginStartForTextView = (int) ((textWidth - cursorWidth) / 2);
-                // 之前的项占据的 marginStart 值的大小
-                int marginStartForSum = 0;
-                for (int i = 0; i < position; ++i)
-                {
-                    // 计算
-                    TextView textView = textViews[i];
-                    marginStartForSum += textView.getWidth();
-                    marginStartForSum += ((ViewGroup.MarginLayoutParams) textView.getLayoutParams()).getMarginStart();
-                }
-                // 所以最大（或 最小）的 marginStart 的值
-                int marginStartVal = marginStartForSum + marginStartForTextView;
+                // 最大宽度
+                TextView textView = textViews[endPosition];
+                int textViewW = textView.getWidth();
+                int endCursorW = (int) (textViewW * cursorRatio);
+                int marginVal = (textViewW - endCursorW) / 2;
+                int maxCursorW = this.cursorWidth + this.halfMarginStart + this.marginEnd + marginVal + endCursorW;
+                int cursorWAmount = maxCursorW - this.cursorWidth;
+                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) tabLine.getLayoutParams();
 
-                // 计算出游标在源位置上的宽度
-                TextView originText = textViews[this.position];
-                int originTextWidth = originText.getWidth();
-                // 游标的正常宽度
-                int widthForTabLine = (int) (originTextWidth * cursorRatio);
-                // 计算出一半的长度
-                int extraVal = (originTextWidth - widthForTabLine) / 2;
-                // 计算出 marginEnd
-                int maxWidthForTabLine = widthForTabLine + extraVal + marginEndForItem + marginStartForTextView + cursorWidth;
-                int amountForTabLine = maxWidthForTabLine - cursorWidth;
+//                Tool.log("游标的最大宽度：" + maxCursorW + "; 游标的原始宽度：" + this.cursorWidth + "; 游标的 源 marginLeft: " + this.cursorLeft + "; ");
+                String dir = this.position > endPosition ? "left" : "right";
+                if (this.state == ViewPager.SCROLL_STATE_DRAGGING) {
+                    // 用户正在拖动的过程中
 
-                        // 获取游标当前的 left 值
-                ViewGroup.MarginLayoutParams layoutParamsForTabLine = (ViewGroup.MarginLayoutParams) tabLine.getLayoutParams();
-                int curMarginStartForTabLine = layoutParamsForTabLine.getMarginStart();
-                // 由于游标这个地方的过渡有两个过程
-                // 第一 将长度拉到最大（位置不变）
-                // 第二 将长度减到最小（位置发生变化）
-                // 上述两个过程被认为是同一个动画效果，即过程
-                // 所以由 viewpager 的完成度来指示游标的完成度，需要 *2
-                // 通过 *2 来评判步骤一是否完成，然后进行步骤2
-                if (dir == "toLeft") {
-                    // 用户滑动屏幕向左移动
-
-                    return ;
-                }
-                // 用户滑动屏幕向右移动
-                double realRatio = positionOffset * 2;
-                Tool.log("realRatio: " + realRatio + "; originRatio: " + positionOffset);
-
-                if (realRatio <= 1) {
-                    // 增加过程
-                    int amount = (int) (amountForTabLine * realRatio);
-                    int endWidth = widthForTabLine + amount;
-                    // 设置宽度的过程需要通过设置上级的 LayoutParams
-                    int heightForTabLine = tabLine.getHeight();
-                    // 设置宽高
-                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) tabLine.getLayoutParams();
-                    // 设置宽度
-                    params.width = endWidth;
+                    if (dir == "left") {
+                        return ;
+                    }
+                    double ratio = positionOffset * 2;
+                    if (this.isFitMaxW) {
+                        // 缩小，位置移动的过程
+                        double copyRatio = ratio - 1;
+//                        double copyRatio = ratio - 1;
+                        int curAmount = (int) (cursorWAmount * copyRatio);
+//                        Tool.log("maxCursorW: " + params.width + "; cal_maxCursorW: " + maxCursorW + "; amount: " + curAmount + "cursorLeft: " + this.cursorLeft);
+                        params.width = maxCursorW - curAmount;
+//                        params.leftMargin = this.cursorLeft + curAmount;
+                        params.leftMargin = this.cursorLeft + curAmount;
+                    } else {
+                        ratio = Math.min(1 , ratio);
+                        int curAmount = (int) (cursorWAmount * ratio);
+//                        Tool.log("ratio: " + ratio + "; maxCursorW: " + maxCursorW + "; 比较结果：" + (ratio == 1) + "; ratio: " + ratio);
+                        params.width = Math.min(this.cursorWidth + curAmount , maxCursorW);
+                        if (ratio == 1) {
+                            // 符合最大的宽度
+                            this.isFitMaxW = true;
+                        }
+                    }
                     tabLine.setLayoutParams(params);
-                    Tool.log("现有宽度：" + endWidth + "; 源宽度：" + widthForTabLine);
-                    return ;
+                } else {
+                    // 用户回弹的过程
+                    if (this.state == ViewPager.SCROLL_STATE_SETTLING) {
+                        Tool.log("放手过程,ratio: " + positionOffset);
+                        if (dir == "left") {
+                            return ;
+                        }
+                        double ratio = positionOffset * 2;
+                        if (positionOffset > 0.5) {
+                            // 超过，则跳转到下一个位置
+                            params.width = endCursorW;
+                            params.leftMargin = this.cursorLeft + this.halfMarginStart + this.cursorWidth + this.marginEnd + marginVal;
+                        } else {
+                            int curAmount = (int) (cursorWAmount * ratio);
+                            params.width = this.cursorWidth + curAmount;
+                        }
+                        tabLine.setLayoutParams(params);
+                    }
                 }
-                // 缩小过程
-                int amount = (int) (amountForTabLine * (realRatio - 1));
-                int endWidth = widthForTabLine - amount;
-                // 设置宽度的过程需要通过设置上级的 LayoutParams
-                int heightForTabLine = tabLine.getHeight();
-                // 设置宽高
-                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) tabLine.getLayoutParams();
-                // 设置宽度
-                params.width = endWidth;
-                tabLine.setLayoutParams(params);
-                tabLine.setTranslationX(amount);
-                Tool.log("现有宽度：" + endWidth + "; 源宽度：" + widthForTabLine);
             }
 
             @Override
             public void onPageSelected(int position)
             {
-                // 页面切换成功的时候，可以看看
-                Tool.log("页面切换成功");
+                // 更新当前的位置
+                this.position = position;
             }
 
             @Override
             public void onPageScrollStateChanged(int state)
             {
+//                Tool.log("view_pager: on page scroll state changed");
+                this.state = state;
                 // 状态会发生改变
-                // 0 - 动画完全停滞状态，用户手指也已经松开
-                // 1 - 用户手指触摸滑动中
-                // 2 - 用户手指松开正在自动调整中
+                // 0 - 动画完全停滞状态，用户手指也已经松开 SCROLL_STATE_IDEL
+                // 1 - 用户手指触摸滑动中 SCROLL_STATE_DRAGGING
+                // 2 - 用户手指松开正在自动调整中 SCROLL_STATE_SETTLING
                 // 获取并缓存当前选中视图的 尺寸
+
+                if (state != ViewPager.SCROLL_STATE_DRAGGING) {
+                    if (state == ViewPager.SCROLL_STATE_SETTLING) {
+                        this.isFitMaxW = false;
+                    }
+                    return ;
+                }
                 TextView textView = textViews[this.position];
-                this.cursorWidth = (int) (textView.getWidth() * cursorRatio);
+                int textViewW = textView.getWidth();
+                this.cursorWidth = (int) (textViewW * cursorRatio);
                 this.cursorLeft = ((ViewGroup.MarginLayoutParams) tabLine.getLayoutParams()).getMarginStart();
-//                Tool.log("状态发生改变：" + state);
+                this.halfMarginStart = (int) ((textViewW - this.cursorWidth) / 2);
+                this.marginEnd = ((ViewGroup.MarginLayoutParams) textView.getLayoutParams()).rightMargin;
+                Tool.log("on page scroll state changed: cursorLeft: " + this.cursorLeft);
             }
         });
         LinearLayout tabs = this.findViewById(R.id.tabs);
@@ -246,6 +242,24 @@ public class BcyAppActivity extends AppCompatActivity
 //            text.setTypeface(Typeface.NORMAL , Typeface.BOLD);
 //            text.setTextSize(18);
 //            text.setFontSize
+            if (i == 0) {
+                // 第一个
+                text.post(new Runnable() {
+                    @Override
+                   public void run()
+                   {
+                       // 初始化 游标 的宽度 和 位置
+                       int textW = text.getWidth();
+                       int tabLineW = (int) (textW * cursorRatio);
+                       int cursorStart = (int) ((textW - tabLineW) / 2);
+                       ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) tabLine.getLayoutParams();
+                       params.width = tabLineW;
+                       params.leftMargin = cursorStart;
+                       Tool.log("设置的 leftMargin: " + cursorStart);
+                       tabLine.setLayoutParams(params);
+                   }
+                });
+            }
             if (i == subject.length - 1) {
                 // 最后一个文本,marginEnd 设置为 0
                 ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) text.getLayoutParams();
