@@ -55,13 +55,15 @@ public class SwipeActivity extends AppCompatActivity
             {
                 int action = event.getAction();
                 String actionName = Tool.getEventName(action);
+                Tool.log("当前触发的事件：" + actionName);
                 switch (action)
                 {
                     case MotionEvent.ACTION_DOWN:
                         this.onTouchStart(event);
                         // 手动触发所有子视图的事件
-                        this.triggerChildrenClickEvent(linearViewPager);
-                        return true;
+//                        this.triggerChildrenClickEvent(linearViewPager);
+//                        return true;
+                        break;
                     case MotionEvent.ACTION_MOVE:
                         this.onTouchMove(event);
                         break;
@@ -69,6 +71,7 @@ public class SwipeActivity extends AppCompatActivity
                         this.onTouchUp(event);
                         break;
                 }
+
                 return false;
             }
 
@@ -79,6 +82,7 @@ public class SwipeActivity extends AppCompatActivity
                 for (int i = 0; i < count; ++i)
                 {
                     View v = view.getChildAt(i);
+                    // 如何判断当前的视图是否是 布局
                 }
             }
 
@@ -89,14 +93,15 @@ public class SwipeActivity extends AppCompatActivity
 
             public void onTouchMove(MotionEvent event)
             {
-
+                Tool.log("当前执行的动作：" + Tool.getEventName(event.getAction()));
             }
 
             public void onTouchUp(MotionEvent event)
             {
-
+                Tool.log("当前执行的动作：" + Tool.getEventName(event.getAction()));
             }
         });
+
 
 //        linearViewPager.setOnClickListener(new View.OnClickListener() {
 //            public void onClick(View view)

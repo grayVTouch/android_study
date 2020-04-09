@@ -51,7 +51,6 @@ public class BcyAppActivity extends AppCompatActivity
                 self.startActivity(intent);
             }
         });
-
     }
 
     public void initViewPager()

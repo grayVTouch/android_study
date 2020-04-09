@@ -15,7 +15,7 @@
         >
 
         <!-- 单个项 -->
-        <LinearLayout
+        <com.test.test.view.EventLinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
@@ -41,7 +41,7 @@
                 android:src="@drawable/logo"
                 android:id="@+id/image"
                 />
-        </LinearLayout>
+        </com.test.test.view.EventLinearLayout>
 
         <!-- 单个项 -->
         <LinearLayout

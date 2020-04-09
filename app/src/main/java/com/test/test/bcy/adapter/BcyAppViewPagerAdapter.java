@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.test.test.R;
+import com.test.test.lib.Tool;
 
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
@@ -42,6 +43,14 @@ public class BcyAppViewPagerAdapter extends PagerAdapter
         // 初始化内容
         TextView text = view.findViewById(R.id.text);
         text.setText(this.subject[position]);
+
+        text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                Tool.log("文本点击事件");
+            }
+        });
 
         vg.addView(view);
         return view;
