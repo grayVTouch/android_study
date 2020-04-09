@@ -554,4 +554,11 @@ public class MainActivity extends AppCompatActivity
         Intent intent = new Intent(this , ViewPagerActivity.class);
         this.startActivity(intent);
     }
+
+
+    public void openSwipeActivity(View view)
+    {
+        Intent intent = new Intent(this , SwipeActivity.class);
+        this.startActivity(intent);
+    }
 }

@@ -36,7 +36,7 @@ public class ViewPagerActivity extends AppCompatActivity
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                Tool.log("position: " + position + ";page change amount: " + positionOffset + "; px: " + positionOffsetPixels);
+//                Tool.log("position: " + position + ";page change amount: " + positionOffset + "; px: " + positionOffsetPixels);
             }
 
             @Override
@@ -45,8 +45,9 @@ public class ViewPagerActivity extends AppCompatActivity
             }
 
             @Override
-            public void onPageScrollStateChanged(int state) {
-
+            public void onPageScrollStateChanged(int state)
+            {
+                Tool.log("页面状态变化 - state: " + state);
             }
         });
     }

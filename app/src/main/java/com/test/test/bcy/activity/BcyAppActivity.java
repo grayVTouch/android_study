@@ -111,12 +111,26 @@ public class BcyAppActivity extends AppCompatActivity
 
             private int marginEnd = 0;
 
+            // 是否已经达到最大高度
             private boolean isFitMaxW = false;
+
+            // 是否已经停止动画
+            private boolean isSettling = false;
+
+            // 当前的 ratio
+            private double ratio = 0;
+
+            // 当前的 位置
+            private int positionPixel = 0;
+
+            // 运动的方向 left-向左 right-向右
+            private String dir;
 
 
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels)
             {
+                Tool.log("当前 position: " + position + "; 上一个: " + this.position);
                 if (this.once) {
                     // 他默认会调用一次，请忽略这一次
                     this.once = false;
@@ -147,7 +161,6 @@ public class BcyAppActivity extends AppCompatActivity
                 String dir = this.position > endPosition ? "left" : "right";
                 if (this.state == ViewPager.SCROLL_STATE_DRAGGING) {
                     // 用户正在拖动的过程中
-
                     if (dir == "left") {
                         return ;
                     }
@@ -175,20 +188,9 @@ public class BcyAppActivity extends AppCompatActivity
                 } else {
                     // 用户回弹的过程
                     if (this.state == ViewPager.SCROLL_STATE_SETTLING) {
-                        Tool.log("放手过程,ratio: " + positionOffset);
                         if (dir == "left") {
                             return ;
                         }
-                        double ratio = positionOffset * 2;
-                        if (positionOffset > 0.5) {
-                            // 超过，则跳转到下一个位置
-                            params.width = endCursorW;
-                            params.leftMargin = this.cursorLeft + this.halfMarginStart + this.cursorWidth + this.marginEnd + marginVal;
-                        } else {
-                            int curAmount = (int) (cursorWAmount * ratio);
-                            params.width = this.cursorWidth + curAmount;
-                        }
-                        tabLine.setLayoutParams(params);
                     }
                 }
             }
@@ -213,7 +215,15 @@ public class BcyAppActivity extends AppCompatActivity
 
                 if (state != ViewPager.SCROLL_STATE_DRAGGING) {
                     if (state == ViewPager.SCROLL_STATE_SETTLING) {
+                        // 松手的过程
                         this.isFitMaxW = false;
+                        // 表明已经松手了
+                        this.isSettling = true;
+                    }
+                    if (state == ViewPager.SCROLL_STATE_IDLE) {
+                        // 动画已经停止
+                        this.isSettling = false;
+                        Tool.log("动画过程");
                     }
                     return ;
                 }
