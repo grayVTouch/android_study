@@ -55,13 +55,29 @@
             </HorizontalScrollView>
 
             <!-- 对应的内容区域 -->
-            <androidx.viewpager.widget.ViewPager
+            <com.test.test.bcy.view.SlideSwitchLinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:id="@+id/view_pager"
+                android:orientation="vertical"
+                android:id="@+id/slider_outer"
                 />
+
+            <LinearLayout
+                android:id="@+id/linear_test"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:orientation="vertical"
+                android:gravity="center"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="nihao"
+                    />
+            </LinearLayout>
         </LinearLayout>
+
     </FrameLayout>
 
     <!-- 底部导航栏 -->
