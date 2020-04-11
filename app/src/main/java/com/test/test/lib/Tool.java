@@ -6,6 +6,7 @@ import android.os.Build;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -17,6 +18,9 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.text.DecimalFormat;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 public class Tool
 {
@@ -164,5 +168,67 @@ public class Tool
         // 窗口总是允许扩展到 刘海屏 区域d
         params.layoutInDisplayCutoutMode  = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
         win.setAttributes(params);
+    }
+
+    // 设置 left | right | top | bottom | width | height
+    public static void setLayoutParams(View v , HashMap<String,Integer> attrs)
+    {
+        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
+        Iterator<Map.Entry<String,Integer>> iterator = attrs.entrySet().iterator();
+        while (iterator.hasNext())
+        {
+            Map.Entry<String,Integer> entry = iterator.next();
+            String key = entry.getKey();
+            int value = entry.getValue();
+            switch (key)
+            {
+                case "width":
+                    params.width = value;
+                    break;
+                case "height":
+                    params.height = value;
+                    break;
+                case "leftMargin":
+                    params.leftMargin = value;
+                    break;
+                case "topMargin":
+                    params.topMargin = value;
+                    break;
+                case "rightMargin":
+                    params.rightMargin = value;
+                    break;
+                case "bottomMargin":
+                    params.bottomMargin = value;
+                    break;
+            }
+        }
+        v.setLayoutParams(params);
+    }
+    public static void setLayoutParams(View v , String key , int value)
+    {
+        HashMap<String,Integer> map = new HashMap<>();
+        map.put(key , value);
+        Tool.setLayoutParams(v , map);
+    }
+
+    public static int getLayoutParams(View v , String attr)
+    {
+        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
+        switch (attr)
+        {
+            case "width":
+                return params.width;
+            case "height":
+                return params.height;
+            case "leftMargin":
+                return params.leftMargin;
+            case "topMargin":
+                return params.topMargin;
+            case "rightMargin":
+                return params.rightMargin;
+            case "bottomMargin":
+                return params.bottomMargin;
+        }
+        return -1;
     }
 }

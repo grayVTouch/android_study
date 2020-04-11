@@ -133,39 +133,17 @@ public class BcyAppActivity extends AppCompatActivity
 
         SlideSwitchLinearLayout slideSwitchLinearLayout = this.findViewById(R.id.slider_outer);
 
-        HashMap<String,Object> map = new HashMap<>();
-        map.put("canMove" , 0);
-        map.put("startX" , 0);
-        map.put("startY" , 0);
-        map.put("endX" , 0);
-        map.put("endY" , 0);
-
-        slideSwitchLinearLayout.setOnTouchStartListener((View view , int x , int y) -> {
-            map.put("canMove" , 1);
-            map.put("startX" , x);
-            map.put("startY" , y);
-        });
-
-        slideSwitchLinearLayout.setOnTouchMoveListener((View view , int x , int y) -> {
-            int canMove = (int) map.get("canMove");
-            if (canMove == 1) {
-                // 先判断方向
-                int startX = (int) map.get("startX");
-                int startY = (int) map.get("startY");
-                int amountX = x - startX;
-                int amountY = y - startY;
-                Tool.log("变化量x: " + amountX + "; 变化量y: " + amountY);
-
-                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
-                if (params.leftMargin < 0) {
-
-                }
-            }
-        });
-
-        slideSwitchLinearLayout.setOnTouchEndListener((View view , int x , int y) -> {
-            map.put("canMove" , 0);
-        });
+//        slideSwitchLinearLayout.setOnTouchStartListener((View view , int x , int y) -> {
+//
+//        });
+//
+//        slideSwitchLinearLayout.setOnTouchMoveListener((View view , int x , int y) -> {
+//
+//        });
+//
+//        slideSwitchLinearLayout.setOnTouchEndListener((View view , int x , int y) -> {
+//
+//        });
 
         class MyAdapter extends SlideSwitchLinearLayout.Adapter
         {
@@ -182,19 +160,17 @@ public class BcyAppActivity extends AppCompatActivity
             }
 
             @Override
-            public void instantiateItem(ViewGroup viewGroup , int position)
+            public View instantiateItem(ViewGroup vg , int position)
             {
-                LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
-                View view = inflater.inflate(R.layout.bcy_app_view_pager_adapter_item , viewGroup , false);
-
-                // 添加视图
-                viewGroup.addView(view);
+                LayoutInflater inflater = LayoutInflater.from(vg.getContext());
+                View view = inflater.inflate(R.layout.bcy_app_view_pager_adapter_item , vg , false);
 
                 // 设置文本
                 TextView text = view.findViewById(R.id.text);
                 text.setText(this.value[position]);
-
-                //
+                // 添加视图
+                vg.addView(view);
+                return view;
             }
         }
         // 实例化适配器
@@ -211,26 +187,26 @@ public class BcyAppActivity extends AppCompatActivity
         slideSwitchLinearLayout.addView(view);
         Tool.log("添加视图");
 
-        // 通过 java 代码添加视图的方式
-        LinearLayout linearTest = this.findViewById(R.id.linear_test);
-
-        Handler handler = new Handler();
-        handler.postDelayed(() -> {
-            try {
-                // 这边足够证明这个地方是没有问题的
-                Thread.sleep(5 * 1000);
-                ImageView view1 = new ImageView(linearTest.getContext());
-                view1.setImageResource(R.drawable.jd_logo);
-                ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT , ViewGroup.LayoutParams.WRAP_CONTENT);
-                view1.setLayoutParams(params);
-                // 添加视图
-                linearTest.addView(view1);
-                Tool.log("数据测试...");
-            } catch(Exception e) {
-                // 打印出错误日志
-                e.printStackTrace();
-            }
-        } , 3* 1000);
+//        // 通过 java 代码添加视图的方式
+//        LinearLayout linearTest = this.findViewById(R.id.linear_test);
+//
+//        Handler handler = new Handler();
+//        handler.postDelayed(() -> {
+//            try {
+//                // 这边足够证明这个地方是没有问题的
+//                Thread.sleep(5 * 1000);
+//                ImageView view1 = new ImageView(linearTest.getContext());
+//                view1.setImageResource(R.drawable.jd_logo);
+//                ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT , ViewGroup.LayoutParams.WRAP_CONTENT);
+//                view1.setLayoutParams(params);
+//                // 添加视图
+//                linearTest.addView(view1);
+//                Tool.log("数据测试...");
+//            } catch(Exception e) {
+//                // 打印出错误日志
+//                e.printStackTrace();
+//            }
+//        } , 3* 1000);
     }
 
     public void run()

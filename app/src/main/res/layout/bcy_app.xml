@@ -63,19 +63,19 @@
                 android:id="@+id/slider_outer"
                 />
 
-            <LinearLayout
-                android:id="@+id/linear_test"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:orientation="vertical"
-                android:gravity="center"
-                >
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="nihao"
-                    />
-            </LinearLayout>
+<!--            <LinearLayout-->
+<!--                android:id="@+id/linear_test"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="100dp"-->
+<!--                android:orientation="vertical"-->
+<!--                android:gravity="center"-->
+<!--                >-->
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="nihao"-->
+<!--                    />-->
+<!--            </LinearLayout>-->
         </LinearLayout>
 
     </FrameLayout>
