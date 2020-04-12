@@ -76,6 +76,8 @@ public class SlideSwitchLinearLayout extends LinearLayout
 
     private long endTime = 0;
 
+    private AnimatorListener listener;
+
     // 适配器
     private Adapter adapter;
 
@@ -90,13 +92,10 @@ public class SlideSwitchLinearLayout extends LinearLayout
 
         // 数据处理
         this.canMove = true;
-        if (this.onTouchStartListener == null) {
+        if (this.listener == null) {
             return ;
         }
-        // 提供用户精确控制的回调
-        int x = (int) event.getX();
-        int y = (int) event.getY();
-        this.onTouchStartListener.onTouchStart(this , x , y);
+        this.listener.onTouchStart(this.position);
     }
 
     public void onTouchMove(MotionEvent event)
@@ -110,8 +109,9 @@ public class SlideSwitchLinearLayout extends LinearLayout
         int x = (int) event.getX();
         int y = (int) event.getY();
         int amountX = x - startX;
-//        int amountY = y - startY;
-//        Tool.log("amountX: " + amountX);
+        if (amountX == 0) {
+            return ;
+        }
         if (this.position == 0) {
             if (amountX > 0) {
                 return ;
@@ -125,12 +125,26 @@ public class SlideSwitchLinearLayout extends LinearLayout
         int transX = this.innerTransX;
         transX += amountX;
         this.inner.setTranslationX(transX);
-        if (this.onTouchMoveListener == null) {
+        if (this.listener == null) {
             return ;
         }
-        // 相关回调
-        this.onTouchMoveListener.onTouchMove(this , x , y);
+        int action = amountX > 0 ? this.ANIMATION_PREV : this.ANIMATION_NEXT;
+        double ratio = (double) amountX / this.width;
+        this.listener.onTouchMove(this.position , ratio , amountX);
+        this.listener.onMove(position , this.TOUCH_MOVE , action , ratio , amountX , 0);
     }
+
+    public static final int ANIMATION_NEXT = 1;
+    public static final int ANIMATION_PREV = -1;
+    public static final int ANIMATION_ORIGIN = 0;
+
+    public static final int TOUCH_START = 1;
+    public static final int TOUCH_MOVE = 2;
+    public static final int TOUCH_END = 3;
+
+    // 决定类型
+    public static final int DECISION_TIME = 1;
+    public static final int DECISION_DISTANCE = 2;
 
     public void onTouchEnd(MotionEvent event)
     {
@@ -156,42 +170,64 @@ public class SlideSwitchLinearLayout extends LinearLayout
         if (amountX == 0) {
             return ;
         }
+        // 当前正在执行的动作
+        int action = this.ANIMATION_ORIGIN;
         int position;
+        int decisionType = this.DECISION_DISTANCE;
         long duration = this.endTime - this.startTime;
         if (duration < 200) {
             if (amountX > 0) {
+                action = this.ANIMATION_PREV;
                 // 左滑-上一个
                 position = this.position - 1;
+                decisionType = this.DECISION_TIME;
             } else {
                 // 左滑-下一个
+                action = this.ANIMATION_NEXT;
                 position = this.position + 1;
+                decisionType = this.DECISION_DISTANCE;
             }
         } else {
             double ratio = Math.abs((double) amountX / this.width);
             if (ratio > this.ratio) {
                 if (amountX > 0) {
                     // 右移-上一个
+                    action = this.ANIMATION_PREV;
                     position = this.position - 1;
                 } else {
                     // 左移-下一个
+                    action = this.ANIMATION_NEXT;
                     position = this.position + 1;
                 }
             } else {
                 // 还原
+                action = this.ANIMATION_ORIGIN;
                 position = this.position;
             }
         }
-        int startTransX = (int) self.inner.getTranslationX();
+        final int finalAction = action;
+        final int startTransX = (int) self.inner.getTranslationX();
         int endTransX = -this.width * position;
+        int amountTransX = endTransX - startTransX;
+        Tool.log("amountTransX: " + amountTransX);
         ValueAnimator prev = ValueAnimator.ofInt(startTransX , endTransX);
         prev.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation)
             {
                 int value = (int) animation.getAnimatedValue();
-//                Tool.log("当前 left: " + startMarginStart + "; 动画变化量：" + amount);
-//                Tool.setLayoutParams(self.inner , "leftMargin" , value);
+                int amountValue = value - startTransX;
                 self.inner.setTranslationX(value);
+                /**
+                 *
+                 * @param position
+                 * @param touchState 触摸状态 end | move | up
+                 * @param action 当前正在执行的动作： origin-复位 | next-下一个 | prev-上一个
+                 * @param ratio 当前移动量占据每个页面宽度的百分比，有正负之分，正表示右滑 | 负表示左滑
+                 * @param amountX 当前移动量，单位 px，同上
+                 */
+                double ratio = (double) amountValue / amountTransX;
+                self.listener.onMove(self.position , self.TOUCH_END , finalAction , ratio , amountValue , amountTransX);
             }
         });
         prev.addListener(new AnimatorListenerAdapter() {
@@ -201,17 +237,15 @@ public class SlideSwitchLinearLayout extends LinearLayout
                 // 更新索引
                 self.position = position;
                 self.innerTransX = (int) self.inner.getTranslationX();
+
+                if (self.listener == null) {
+                    return ;
+                }
+                self.listener.onTouchEnd(position);
             }
         });
         prev.setDuration(100);
         prev.start();
-
-        if (this.onTouchEndListener == null) {
-            return ;
-        }
-        this.onTouchEndListener.onTouchEnd(this , x , y);
-
-
     }
 
     private OnTouchStartListener onTouchStartListener;
@@ -351,14 +385,15 @@ public class SlideSwitchLinearLayout extends LinearLayout
          * @param position
          * @param touchState 触摸状态 end | move | up
          * @param action 当前正在执行的动作： origin-复位 | next-下一个 | prev-上一个
-         * @param ratio 当前移动量占据每个页面宽度的百分比
-         * @param amountX 当前移动量，单位 px
+         * @param ratio 当前移动量占据每个页面宽度的百分比，有正负之分，正表示右滑 | 负表示左滑
+         * @param amountX 当前移动量，单位 px，同上
+         * @param amount  仅在 touchState = TOUCH_END & action = ORIGIN 的时候有效，用来判断还原的运动方向
          */
-        void onMove(int position , int touchState , int action , double ratio , int amountX);
+        void onMove(int position , int touchState , int action , double ratio , int amountX , int amount);
     }
 
-    public void setAnimationListener()
+    public void addListener(AnimatorListener listener)
     {
-
+        this.listener = listener;
     }
 }
