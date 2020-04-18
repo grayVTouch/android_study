@@ -287,6 +287,7 @@ public class MainActivity extends AppCompatActivity
         this.startActivity(intent);
     }
 
+    // 启动后台服务
     public void startBackgroundService(View v)
     {
         // 您应该是中使用显式的 intent 来启动服务
@@ -559,6 +560,24 @@ public class MainActivity extends AppCompatActivity
     public void openSwipeActivity(View view)
     {
         Intent intent = new Intent(this , SwipeActivity.class);
+        this.startActivity(intent);
+    }
+
+    public void openThreadPoolActivity(View view)
+    {
+        Intent intent = new Intent(this , ThreadPoolActivity.class);
+        this.startActivity(intent);
+    }
+
+    public void openDataAndFileActivity(View view)
+    {
+        Intent intent = new Intent(this , StorageActivity.class);
+        this.startActivity(intent);
+    }
+
+    public void openNetworkActivity(View view)
+    {
+        Intent intent = new Intent(this , NetworkActivity.class);
         this.startActivity(intent);
     }
 }

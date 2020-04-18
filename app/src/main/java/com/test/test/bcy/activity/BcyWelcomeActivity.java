@@ -31,6 +31,7 @@ public class BcyWelcomeActivity extends AppCompatActivity
     {
         super.onCreate(bundle);
         // 检查是否已经对用户显示过欢迎页
+        // 如果仅仅是针对单个 activity 设置
         SharedPreferences storage = this.getPreferences(Context.MODE_PRIVATE);
         int welcomeOnce = storage.getInt("welcome_once" , 0);
         if (welcomeOnce > 0) {

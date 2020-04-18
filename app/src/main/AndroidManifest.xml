@@ -6,13 +6,19 @@
     <uses-permission android:name="android.permission.READ_USER_DICTIONARY" />
     <uses-permission android:name="android.permission.WRITE_USER_DICTIONARY" />
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- 外部存储读取权限，如果访问的是非应用内部的目录，则要求请求一下权限 -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!-- 外部存储写入权限， -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-feature
         android:name="android.permission.CAMERA"
         android:required="true"
         />
 
+    <!--
+      android:usesCleartextTraffic 允许在发起 http 请求的时候发送明文的流量
+      -->
     <application
         android:allowBackup="true"
         android:icon="@drawable/logo"
@@ -21,6 +27,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:largeHeap="true"
+        android:usesCleartextTraffic="true"
         >
         <activity
             android:name=".MainActivity"
@@ -133,6 +140,9 @@
 
         <activity android:name=".bcy.activity.BcyAppActivity" />
         <activity android:name=".SwipeActivity" />
+        <activity android:name=".ThreadPoolActivity" />
+        <activity android:name=".StorageActivity" />
+        <activity android:name=".NetworkActivity" />
 
     </application>
 </manifest>

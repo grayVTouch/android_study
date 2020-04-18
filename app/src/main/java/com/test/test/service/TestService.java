@@ -16,6 +16,13 @@ import com.test.test.MainActivity;
 import com.test.test.R;
 import com.test.test.lib.Tool;
 
+/**
+ * Service He  IntentService 的区别就是
+ *
+ * Service 通常用于处理一些复杂的任务
+ * IntentService 通常用于处理一些简单的任务
+ */
+
 public class TestService extends Service
 {
     public int onStartCommand(Intent intent , int flags , int startId)
