@@ -2,6 +2,7 @@ package com.test.test.lib;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -17,10 +18,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
+import java.util.function.Consumer;
 
 public class Tool
 {
@@ -231,4 +235,115 @@ public class Tool
         }
         return -1;
     }
+
+    /**
+     * 数据存储 共享数据
+     */
+    public static class Storage
+    {
+        public static void put(AppCompatActivity context , String key , String value)
+        {
+            SharedPreferences spf = context.getPreferences(Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = spf.edit();
+            editor.putString(key , value);
+            // 同步 api
+            editor.commit();
+            // 异步 api
+//            editor.apply();
+        }
+
+        public static void put(AppCompatActivity context , String key , int value)
+        {
+            SharedPreferences spf = context.getPreferences(Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = spf.edit();
+            editor.putInt(key , value);
+            editor.commit();
+        }
+
+        public static void put(AppCompatActivity context , String key , boolean value)
+        {
+            SharedPreferences spf = context.getPreferences(Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = spf.edit();
+            editor.putBoolean(key , value);
+            editor.commit();
+        }
+
+        public static void put(AppCompatActivity context , String key , float value)
+        {
+            SharedPreferences spf = context.getPreferences(Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = spf.edit();
+            editor.putFloat(key , value);
+            editor.commit();
+        }
+
+        public static void put(AppCompatActivity context , String key , long value)
+        {
+            SharedPreferences spf = context.getPreferences(Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = spf.edit();
+            editor.putLong(key , value);
+            editor.commit();
+        }
+
+        public static void put(AppCompatActivity context , String key , Set<String> value)
+        {
+            SharedPreferences spf = context.getPreferences(Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = spf.edit();
+            editor.putStringSet(key , value);
+            editor.commit();
+        }
+
+        public static String get(AppCompatActivity context , String key , String defValue)
+        {
+            SharedPreferences spf = context.getPreferences(Context.MODE_PRIVATE);
+            return spf.getString(key , defValue);
+        }
+
+        public static int get(AppCompatActivity context , String key , int defValue)
+        {
+            SharedPreferences spf = context.getPreferences(Context.MODE_PRIVATE);
+            return spf.getInt(key , defValue);
+        }
+
+        public static boolean get(AppCompatActivity context , String key , boolean defValue)
+        {
+            SharedPreferences spf = context.getPreferences(Context.MODE_PRIVATE);
+            return spf.getBoolean(key , defValue);
+        }
+
+        public static float get(AppCompatActivity context , String key , float defValue)
+        {
+            SharedPreferences spf = context.getPreferences(Context.MODE_PRIVATE);
+            return spf.getFloat(key , defValue);
+        }
+
+        public static Set<String> get(AppCompatActivity context , String key , Set<String> defValue)
+        {
+            SharedPreferences spf = context.getPreferences(Context.MODE_PRIVATE);
+            return spf.getStringSet(key , defValue);
+        }
+
+        public static long get(AppCompatActivity context , String key , long defValue)
+        {
+            SharedPreferences spf = context.getPreferences(Context.MODE_PRIVATE);
+            return spf.getLong(key , defValue);
+        }
+    }
+
+    // 获取子类
+    public static class MyView
+    {
+        public static <T extends View> ArrayList<T> children(ViewGroup vg)
+        {
+            int count = vg.getChildCount();
+            ArrayList<T> list = new ArrayList<>();
+            for (int i = 0; i < count; ++i)
+            {
+                T view = (T) vg.getChildAt(i);
+                list.add(view);
+            }
+            list.trimToSize();
+            return list;
+        }
+    }
+
 }

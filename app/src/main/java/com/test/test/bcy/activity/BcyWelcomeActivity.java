@@ -32,8 +32,7 @@ public class BcyWelcomeActivity extends AppCompatActivity
         super.onCreate(bundle);
         // 检查是否已经对用户显示过欢迎页
         // 如果仅仅是针对单个 activity 设置
-        SharedPreferences storage = this.getPreferences(Context.MODE_PRIVATE);
-        int welcomeOnce = storage.getInt("welcome_once" , 0);
+        int welcomeOnce = Tool.Storage.get(this , "welcome_once" , 0);
         if (welcomeOnce > 0) {
             // 已经显示过欢迎页了，直接进入到半次元首页
             Intent intent = new Intent(this , BcyAppActivity.class);

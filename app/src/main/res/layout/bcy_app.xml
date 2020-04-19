@@ -56,7 +56,7 @@
             </HorizontalScrollView>
 
             <!-- 对应的内容区域 -->
-            <com.test.test.bcy.view.SlideSwitchLinearLayout
+            <com.test.test.bcy.view.SliderSwitchLinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"

@@ -2,7 +2,6 @@ package com.test.test.bcy.view;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.util.AttributeSet;
@@ -11,21 +10,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.alibaba.fastjson.JSON;
 import com.test.test.lib.Tool;
 
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.function.Consumer;
 
-public class SlideSwitchLinearLayout extends LinearLayout
+public class SliderSwitchLinearLayout extends LinearLayout
 {
-    public SlideSwitchLinearLayout(Context context)
+    public SliderSwitchLinearLayout(Context context)
     {
         super(context);
     }
 
-    public SlideSwitchLinearLayout(Context context , AttributeSet attrs)
+    public SliderSwitchLinearLayout(Context context , AttributeSet attrs)
     {
         super(context , attrs);
     }
@@ -108,7 +105,7 @@ public class SlideSwitchLinearLayout extends LinearLayout
         }
         int x = (int) event.getX();
         int y = (int) event.getY();
-        int amountX = x - startX;
+        int amountX = x - this.startX;
         if (amountX == 0) {
             return ;
         }
@@ -146,9 +143,11 @@ public class SlideSwitchLinearLayout extends LinearLayout
     public static final int DECISION_TIME = 1;
     public static final int DECISION_DISTANCE = 2;
 
+    private boolean completed = true;
+
     public void onTouchEnd(MotionEvent event)
     {
-        SlideSwitchLinearLayout self = this;
+        SliderSwitchLinearLayout self = this;
         this.endTime = Calendar.getInstance().getTimeInMillis();
         if (!this.isRender) {
             return ;
@@ -210,8 +209,8 @@ public class SlideSwitchLinearLayout extends LinearLayout
         int endTransX = -this.width * position;
         int amountTransX = endTransX - startTransX;
         Tool.log("amountTransX: " + amountTransX);
-        ValueAnimator prev = ValueAnimator.ofInt(startTransX , endTransX);
-        prev.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+        ValueAnimator animator = ValueAnimator.ofInt(startTransX , endTransX);
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation)
             {
@@ -230,7 +229,7 @@ public class SlideSwitchLinearLayout extends LinearLayout
                 self.listener.onMove(self.position , self.TOUCH_END , finalAction , ratio , amountValue , amountTransX);
             }
         });
-        prev.addListener(new AnimatorListenerAdapter() {
+        animator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation)
             {
@@ -244,8 +243,9 @@ public class SlideSwitchLinearLayout extends LinearLayout
                 self.listener.onTouchEnd(position);
             }
         });
-        prev.setDuration(100);
-        prev.start();
+        animator.setDuration(100);
+//        animator.setDuration(3000);
+        animator.start();
     }
 
     private OnTouchStartListener onTouchStartListener;
@@ -293,7 +293,7 @@ public class SlideSwitchLinearLayout extends LinearLayout
         public abstract View instantiateItem(ViewGroup view , int position);
 
         // 根元素
-        private SlideSwitchLinearLayout root;
+        private SliderSwitchLinearLayout root;
 
         // 上级元素
         private ViewGroup parent;
@@ -337,7 +337,7 @@ public class SlideSwitchLinearLayout extends LinearLayout
 
         // 这个请在 setAdapter 方法里面调用
         // 用来设置 适配器所处的 容器元素
-        public void setViewGroup(SlideSwitchLinearLayout root , ViewGroup parent)
+        public void setViewGroup(SliderSwitchLinearLayout root , ViewGroup parent)
         {
             this.root = root;
             this.parent = parent;

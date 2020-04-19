@@ -55,10 +55,10 @@ public class User
             this.onCreate(db);
         }
 
-        // 降级
-        public void onDowngrade(SQLiteDatabase db , int oldVersion , int newVersion)
-        {
-            this.onUpgrade(db , oldVersion , newVersion);
-        }
+//        // 降级
+//        public void onDowngrade(SQLiteDatabase db , int oldVersion , int newVersion)
+//        {
+//            this.onUpgrade(db , oldVersion , newVersion);
+//        }
     }
 }

@@ -39,13 +39,15 @@ public class StorageActivity extends AppCompatActivity
     // 应用内部文件存储
     public void innerDir()
     {
+        // 返回的是应用程序安装文件所在的存储路径
+        // 用户不应该使用这个路径
         File dataDir = this.getDataDir();
         File filesDir = this.getFilesDir();
         File cacheDir = this.getCacheDir();
         File codeCacheDir = this.getCodeCacheDir();
 
         // 获取文件的绝对路径
-        Tool.log("dataDir 文件的绝对路径：" + dataDir.getAbsolutePath());
+        Tool.log("dataDir 应用的默认文件存储：" + dataDir.getAbsolutePath());
         Tool.log("filesDir 文件的绝对路径：" + filesDir.getAbsolutePath());
         Tool.log("cacheDir 应用临时文件缓存目录 的绝对路径：" + cacheDir.getAbsolutePath());
         Tool.log("codeCacheDir 文件的绝对路径：" + codeCacheDir.getAbsolutePath());
@@ -105,6 +107,9 @@ public class StorageActivity extends AppCompatActivity
                 null ,
                 order
         );
+
+        // 相关方法：query | insert | delete | update
+        // 事务相关： beginTransaction | endTransaction
 
         // 获取其中的数据
         while (cursor.moveToNext())

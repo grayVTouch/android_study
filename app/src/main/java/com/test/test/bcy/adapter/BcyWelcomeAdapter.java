@@ -96,6 +96,8 @@ public class BcyWelcomeAdapter extends PagerAdapter
                         // 进入到 仿半次元首页
                         // 如果点击后，那么将会设置访问状态
                         intent = new Intent(self.activity , BcyAppActivity.class);
+                        // Context.MODE_PRIVATE - 私有模式，仅我的应用能访问
+                        // Context.MODE_PUBLIC - 公有模式，任何应用都能访问
                         SharedPreferences storage = self.activity.getPreferences(Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = storage.edit();
                         editor.putInt("welcome_once" , 1);
