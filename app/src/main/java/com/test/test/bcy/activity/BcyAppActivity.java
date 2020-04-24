@@ -271,6 +271,7 @@ public class BcyAppActivity extends AppCompatActivity
                             this.tabLineMaxW = this.tabLineW + this.startTabLineMargin + this.startViewMargin + this.endTabLineMargin + this.endTabLineW;
                             this.amountW = this.curTabLineW - this.endTabLineW;
                             this.tabLineStartX = (int) tabLine.getTranslationX();
+                            Tool.log("移动到下一个，解算出最终值");
                         }
                     }
                 }
@@ -319,7 +320,9 @@ public class BcyAppActivity extends AppCompatActivity
                         // 移动到下一个
                         int curTabLineW = tabLine.getWidth();
                         int curTabLineX = (int) tabLine.getTranslationX();
+//                        Tool.log("curTabLineW: ");
                         if (curTabLineX <= this.finalTabLineStartX) {
+                            // 非直接跳转，需要一个过渡
                             this.directNext = false;
                             // 请先扩大宽度
                             if (curTabLineW < this.tabLineMaxW) {
@@ -332,7 +335,6 @@ public class BcyAppActivity extends AppCompatActivity
                                 this.curTabLineW = endW;
                             } else {
 //                                return ;
-
                                 double copyRatio = Math.abs(ratio * 2 - 1);
                                 int totalAmountW = this.curTabLineW - this.endTabLineW;
                                 int amountW = (int) (totalAmountW * copyRatio);
