@@ -92,7 +92,9 @@ public class BcyAppActivity extends AppCompatActivity
                 "关注" ,
                 "发现" ,
                 "兴趣部落" ,
+//                "兴趣" ,
                 "COS" ,
+//                "角色" ,
                 "动画" ,
                 "新番" ,
                 "时尚" ,
@@ -218,10 +220,33 @@ public class BcyAppActivity extends AppCompatActivity
             @Override
             public void onTouchEnd(int position)
             {
+                // 这个比较特殊，仅会在动画结束后触发
                 this.hasExpectedResForTouchMove = false;
                 this.hasExpectedResForTouchEnd = false;
+
                 this.isMoreThanMax = false;
                 this.isCompleted = true;
+
+
+                int tabLineEndW = 0;
+                int tabLineEndX = 0;
+                TextView endView = textViews[position];
+                int endViewW = endView.getWidth();
+                tabLineEndW = (int) (endViewW * cursorRatio);
+                int halfW = (int) ((endViewW - tabLineW) / 2);
+                for (int i = 0; i < position; ++i)
+                {
+                    TextView cur = textViews[i];
+                    int curW = cur.getWidth();
+                    int curMarginRight = Tool.getLayoutParams(cur , "rightMargin");
+                    tabLineEndX += curW + curMarginRight;
+                }
+                tabLineEndX += halfW;
+                // 设置宽度
+                Tool.setLayoutParams(tabLine , "width" , tabLineEndW);
+                // 设置水平位置
+                tabLine.setTranslationX(tabLineEndX);
+                Tool.log("终止运动的时候 position: " + position + "; width: " + tabLineEndW + "; translationX: " + tabLineEndX);
             }
 
             @Override
