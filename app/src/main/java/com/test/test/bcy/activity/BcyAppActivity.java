@@ -1,32 +1,20 @@
 package com.test.test.bcy.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
 
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
 import com.test.test.MainActivity;
 import com.test.test.R;
-import com.test.test.bcy.adapter.BcyAppViewPagerAdapter;
-import com.test.test.bcy.view.SlideSwitchLinearLayout;
+import com.test.test.bcy.view.SliderSwitchLinearLayout;
 import com.test.test.lib.Tool;
-
-import java.util.HashMap;
 
 public class BcyAppActivity extends AppCompatActivity
 {
@@ -82,7 +70,9 @@ public class BcyAppActivity extends AppCompatActivity
                 "关注" ,
                 "发现" ,
                 "兴趣部落" ,
+//                "兴趣" ,
                 "COS" ,
+//                "角色" ,
                 "动画" ,
                 "新番" ,
                 "时尚" ,
@@ -129,10 +119,10 @@ public class BcyAppActivity extends AppCompatActivity
             textViews[i] = text;
         }
 
-        SlideSwitchLinearLayout slider = this.findViewById(R.id.slider_outer);
+        SliderSwitchLinearLayout slider = this.findViewById(R.id.slider_outer);
         
 
-        class MyAdapter extends SlideSwitchLinearLayout.Adapter
+        class MyAdapter extends SliderSwitchLinearLayout.Adapter
         {
             private String[] value;
 
@@ -161,7 +151,7 @@ public class BcyAppActivity extends AppCompatActivity
         MyAdapter adapter = new MyAdapter(subject);
         // 设置适配器
         slider.setAdapter(adapter);
-        slider.addListener(new SlideSwitchLinearLayout.AnimatorListener() {
+        slider.addListener(new SliderSwitchLinearLayout.AnimatorListener() {
             private int tabLineW = 0;
 
             // 当前的宽度
@@ -202,8 +192,29 @@ public class BcyAppActivity extends AppCompatActivity
             @Override
             public void onTouchEnd(int position)
             {
+                // 这个比较特殊，仅会在动画结束后触发
                 this.hasExpectedResForTouchMove = false;
                 this.hasExpectedResForTouchEnd = false;
+
+                int tabLineEndW = 0;
+                int tabLineEndX = 0;
+                TextView endView = textViews[position];
+                int endViewW = endView.getWidth();
+                tabLineEndW = (int) (endViewW * cursorRatio);
+                int halfW = (int) ((endViewW - tabLineW) / 2);
+                for (int i = 0; i < position; ++i)
+                {
+                    TextView cur = textViews[i];
+                    int curW = cur.getWidth();
+                    int curMarginRight = Tool.getLayoutParams(cur , "rightMargin");
+                    tabLineEndX += curW + curMarginRight;
+                }
+                tabLineEndX += halfW;
+                // 设置宽度
+                Tool.setLayoutParams(tabLine , "width" , tabLineEndW);
+                // 设置水平位置
+                tabLine.setTranslationX(tabLineEndX);
+                Tool.log("终止运动的时候 position: " + position + "; width: " + tabLineEndW + "; translationX: " + tabLineEndX);
             }
 
             @Override
@@ -220,10 +231,10 @@ public class BcyAppActivity extends AppCompatActivity
             {
                 if (!this.hasExpectedResForTouchMove || !this.hasExpectedResForTouchEnd) {
                     // 计算出相关值
-                    if (touchState == SlideSwitchLinearLayout.TOUCH_MOVE) {
+                    if (touchState == SliderSwitchLinearLayout.TOUCH_MOVE) {
                         this.hasExpectedResForTouchMove = true;
                         // 手指运动过程
-                        if (action == SlideSwitchLinearLayout.ANIMATION_NEXT) {
+                        if (action == SliderSwitchLinearLayout.ANIMATION_NEXT) {
                             int endPosition = position + 1;
                             View startView = textViews[position];
                             View endView = textViews[endPosition];
@@ -236,16 +247,16 @@ public class BcyAppActivity extends AppCompatActivity
                             this.tabLineMaxW = this.tabLineW + this.startTabLineMargin + this.startViewMargin + this.endTabLineMargin + this.endTabLineW;
                             this.amountW = this.tabLineMaxW - this.tabLineW;
                         }
-                        if (action == SlideSwitchLinearLayout.ANIMATION_PREV) {
+                        if (action == SliderSwitchLinearLayout.ANIMATION_PREV) {
 
                         }
                     }
-                    if (touchState == SlideSwitchLinearLayout.TOUCH_END) {
+                    if (touchState == SliderSwitchLinearLayout.TOUCH_END) {
                         this.hasExpectedResForTouchEnd = true;
-                        if (action == SlideSwitchLinearLayout.ANIMATION_PREV) {
+                        if (action == SliderSwitchLinearLayout.ANIMATION_PREV) {
 
                         }
-                        if (action == SlideSwitchLinearLayout.ANIMATION_ORIGIN) {
+                        if (action == SliderSwitchLinearLayout.ANIMATION_ORIGIN) {
                             // 还原
                             if (amount > 0) {
                                 // 运动方向：从左往右
@@ -256,7 +267,7 @@ public class BcyAppActivity extends AppCompatActivity
                                 // 运动方向：从右往左
                             }
                         }
-                        if (action == SlideSwitchLinearLayout.ANIMATION_NEXT) {
+                        if (action == SliderSwitchLinearLayout.ANIMATION_NEXT) {
                             // 移动到下一个
                             int endPosition = position + 1;
                             View startView = textViews[position];
@@ -271,14 +282,15 @@ public class BcyAppActivity extends AppCompatActivity
                             this.tabLineMaxW = this.tabLineW + this.startTabLineMargin + this.startViewMargin + this.endTabLineMargin + this.endTabLineW;
                             this.amountW = this.curTabLineW - this.endTabLineW;
                             this.tabLineStartX = (int) tabLine.getTranslationX();
+
                             Tool.log("移动到下一个，解算出最终值");
                         }
                     }
                 }
 
-                if (touchState == SlideSwitchLinearLayout.TOUCH_MOVE) {
+                if (touchState == SliderSwitchLinearLayout.TOUCH_MOVE) {
                     // 手指运动过程
-                    if (action == SlideSwitchLinearLayout.ANIMATION_NEXT) {
+                    if (action == SliderSwitchLinearLayout.ANIMATION_NEXT) {
                         ratio = Math.abs(ratio);
                         double endRatio = ratio * 2;
                         if (endRatio < 1) {
@@ -295,16 +307,16 @@ public class BcyAppActivity extends AppCompatActivity
                         }
                         return ;
                     }
-                    if (action == SlideSwitchLinearLayout.ANIMATION_PREV) {
+                    if (action == SliderSwitchLinearLayout.ANIMATION_PREV) {
 
                         return ;
                     }
-                } else if (touchState == SlideSwitchLinearLayout.TOUCH_END) {
+                } else if (touchState == SliderSwitchLinearLayout.TOUCH_END) {
                     // 手指触摸结束
-                    if (action == SlideSwitchLinearLayout.ANIMATION_PREV) {
+                    if (action == SliderSwitchLinearLayout.ANIMATION_PREV) {
                         // 移动到上一个
                     }
-                    if (action == SlideSwitchLinearLayout.ANIMATION_ORIGIN) {
+                    if (action == SliderSwitchLinearLayout.ANIMATION_ORIGIN) {
                         // 还原
                         if (amount > 0) {
                             // 运动方向：从左往右
@@ -316,7 +328,7 @@ public class BcyAppActivity extends AppCompatActivity
                             // 运动方向：从右往左
                         }
                     }
-                    if (action == SlideSwitchLinearLayout.ANIMATION_NEXT) {
+                    if (action == SliderSwitchLinearLayout.ANIMATION_NEXT) {
                         // 移动到下一个
                         int curTabLineW = tabLine.getWidth();
                         int curTabLineX = (int) tabLine.getTranslationX();
@@ -334,7 +346,6 @@ public class BcyAppActivity extends AppCompatActivity
                                 Tool.setLayoutParams(tabLine , "width" , endW);
                                 this.curTabLineW = endW;
                             } else {
-//                                return ;
                                 double copyRatio = Math.abs(ratio * 2 - 1);
                                 int totalAmountW = this.curTabLineW - this.endTabLineW;
                                 int amountW = (int) (totalAmountW * copyRatio);

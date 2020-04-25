@@ -2,7 +2,6 @@ package com.test.test.bcy.view;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.util.AttributeSet;
@@ -13,19 +12,16 @@ import android.widget.LinearLayout;
 
 import com.test.test.lib.Tool;
 
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.function.Consumer;
 
-public class SlideSwitchLinearLayout extends LinearLayout
+public class SliderSwitchLinearLayout extends LinearLayout
 {
-    public SlideSwitchLinearLayout(Context context)
+    public SliderSwitchLinearLayout(Context context)
     {
         super(context);
     }
 
-    public SlideSwitchLinearLayout(Context context , AttributeSet attrs)
+    public SliderSwitchLinearLayout(Context context , AttributeSet attrs)
     {
         super(context , attrs);
     }
@@ -148,7 +144,7 @@ public class SlideSwitchLinearLayout extends LinearLayout
 
     public void onTouchEnd(MotionEvent event)
     {
-        SlideSwitchLinearLayout self = this;
+        SliderSwitchLinearLayout self = this;
         this.endTime = Calendar.getInstance().getTimeInMillis();
         if (!this.isRender) {
             return ;
@@ -293,7 +289,7 @@ public class SlideSwitchLinearLayout extends LinearLayout
         public abstract View instantiateItem(ViewGroup view , int position);
 
         // 根元素
-        private SlideSwitchLinearLayout root;
+        private SliderSwitchLinearLayout root;
 
         // 上级元素
         private ViewGroup parent;
@@ -337,7 +333,7 @@ public class SlideSwitchLinearLayout extends LinearLayout
 
         // 这个请在 setAdapter 方法里面调用
         // 用来设置 适配器所处的 容器元素
-        public void setViewGroup(SlideSwitchLinearLayout root , ViewGroup parent)
+        public void setViewGroup(SliderSwitchLinearLayout root , ViewGroup parent)
         {
             this.root = root;
             this.parent = parent;
