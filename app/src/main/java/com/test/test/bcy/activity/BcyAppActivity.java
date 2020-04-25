@@ -16,7 +16,9 @@ import com.test.test.R;
 import com.test.test.bcy.view.SliderSwitchLinearLayout;
 import com.test.test.lib.Tool;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 
 public class BcyAppActivity extends AppCompatActivity
 {
@@ -111,21 +113,6 @@ public class BcyAppActivity extends AppCompatActivity
             TextView text = (TextView) view;
             tabs.addView(view);
             text.setText(cur);
-            if (i == 0) {
-                // 第一个
-                text.post(new Runnable() {
-                    @Override
-                   public void run()
-                   {
-                       // 初始化 游标 的宽度 和 位置
-                       int textW = text.getWidth();
-                       int tabLineW = (int) (textW * cursorRatio);
-                       int cursorStart = (textW - tabLineW) / 2;
-                       Tool.setLayoutParams(tabLine , "width" , tabLineW);
-                       tabLine.setTranslationX(cursorStart);
-                   }
-                });
-            }
             if (i == subject.length - 1) {
                 // 最后一个文本,marginEnd 设置为 0
                 Tool.setLayoutParams(text , "rightMargin" , 0);
@@ -133,6 +120,42 @@ public class BcyAppActivity extends AppCompatActivity
             // 缓存文本
             textViews[i] = text;
         }
+        ArrayList<HashMap<String,Integer>> endRes = new ArrayList<>();
+        tabs.post(new Runnable() {
+            public void run()
+            {
+                // 渲染完成之后，设置首个视图
+                // 计算出游标在每个视图的 translationX | width
+                for (int i = 0; i < textViews.length; ++i)
+                {
+                    TextView textView = textViews[i];
+                    int textViewW = textView.getWidth();
+                    int tabLineEndW = (int) (textViewW * cursorRatio);
+                    int tabLineEndX = 0;
+                    HashMap<String,Integer> hm = new HashMap<>();
+                    hm.put("width" , tabLineEndW);
+                    for (int n = 0; n <= i; ++n)
+                    {
+                        TextView textViewCopy = textViews[n];
+                        int textViewWCopy = textViewCopy.getWidth();
+                        if (n == i) {
+                            int endViewMargin = (textViewWCopy - tabLineEndW) / 2;
+                            tabLineEndX += endViewMargin;
+                            break;
+                        }
+                        int rightMargin = Tool.getLayoutParams(textViewCopy , "rightMargin");
+                        tabLineEndX += textViewWCopy + rightMargin;
+                    }
+                    hm.put("translationX" , tabLineEndX);
+                    endRes.add(hm);
+                    if (i == 0) {
+                        // 初始化设置
+                        tabLine.setTranslationX(tabLineEndX);
+                        Tool.setLayoutParams(tabLine , "width" , tabLineEndW);
+                    }
+                }
+            }
+        });
 
         SliderSwitchLinearLayout slider = this.findViewById(R.id.slider_outer);
         class MyAdapter extends SliderSwitchLinearLayout.Adapter
@@ -172,9 +195,9 @@ public class BcyAppActivity extends AppCompatActivity
 
             private int tabLineMaxW = 0;
 
-            private int tabLineStartX = 0;
+            private float tabLineStartX = 0;
 
-            private int finalTabLineStartX = 0;
+            private float finalTabLineStartX = 0;
 
             private int tabLineEndX = 0;
 
@@ -220,203 +243,31 @@ public class BcyAppActivity extends AppCompatActivity
             @Override
             public void onTouchEnd(int position)
             {
-                // 这个比较特殊，仅会在动画结束后触发
-                this.hasExpectedResForTouchMove = false;
                 this.hasExpectedResForTouchEnd = false;
+                this.hasExpectedResForTouchMove = false;
 
-                this.isMoreThanMax = false;
-                this.isCompleted = true;
-
-
-                int tabLineEndW = 0;
-                int tabLineEndX = 0;
-                TextView endView = textViews[position];
-                int endViewW = endView.getWidth();
-                tabLineEndW = (int) (endViewW * cursorRatio);
-                int halfW = (int) ((endViewW - tabLineW) / 2);
-                for (int i = 0; i < position; ++i)
-                {
-                    TextView cur = textViews[i];
-                    int curW = cur.getWidth();
-                    int curMarginRight = Tool.getLayoutParams(cur , "rightMargin");
-                    tabLineEndX += curW + curMarginRight;
-                }
-                tabLineEndX += halfW;
-                // 设置宽度
-                Tool.setLayoutParams(tabLine , "width" , tabLineEndW);
-                // 设置水平位置
-                tabLine.setTranslationX(tabLineEndX);
-                Tool.log("终止运动的时候 position: " + position + "; width: " + tabLineEndW + "; translationX: " + tabLineEndX);
+                // 设置最终值
+                HashMap<String,Integer> hm = endRes.get(position);
+                Tool.setLayoutParams(tabLine , "width" , hm.get("width"));
+                tabLine.setTranslationX(hm.get("translationX"));
             }
 
             @Override
             public void onTouchStart(int position)
             {
-                if (!this.isCompleted) {
-                    return ;
-                }
-                this.tabLineW = Tool.getLayoutParams(tabLine , "width");
-                this.tabLineStartX = (int) tabLine.getTranslationX();
-                this.finalTabLineStartX = this.tabLineStartX;
-                this.directNext = true;
-                this.isMoreThanMaxCopy = false;
-                this.isCompleted = false;
+
             }
 
             @Override
             public void onMove(int position, int touchState, int action, double ratio, int amountX , int amount)
             {
-                // 计算初始值
-                if (!hasExpectedResForTouchMove && touchState == SliderSwitchLinearLayout.TOUCH_MOVE) {
-                    // Move 过程中，计算出最终值
-                    this.hasExpectedResForTouchMove = true;
-                    if (action == SliderSwitchLinearLayout.ANIMATION_NEXT) {
-                        int endPosition = position + 1;
-                        View startView = textViews[position];
-                        View endView = textViews[endPosition];
-                        int startViewW = startView.getWidth();
-                        int endViewW = endView.getWidth();
-                        this.tabLineCurW = tabLine.getWidth();
-                        this.tabLineEndW = (int) (endViewW * cursorRatio);
-                        this.startTabLineMargin = (startViewW - this.tabLineW ) / 2;
-                        this.endTabLineMargin = (endViewW - this.tabLineEndW) / 2;
-                        this.startViewMargin = Tool.getLayoutParams(startView , "rightMargin");
-                        this.tabLineMaxW = this.tabLineW + this.startTabLineMargin + this.startViewMargin + this.endTabLineMargin + this.tabLineEndW;
-                        this.amountW = this.tabLineMaxW - this.tabLineW;
-                        this.amountWFromCurrentToMax = this.tabLineMaxW - this.tabLineW;
-                    }
-                    if (action == SliderSwitchLinearLayout.ANIMATION_PREV) {
-
-                    }
-                }
-                if (!this.hasExpectedResForTouchEnd && touchState == SliderSwitchLinearLayout.TOUCH_END) {
-                    this.hasExpectedResForTouchEnd = true;
-                    if (action == SliderSwitchLinearLayout.ANIMATION_PREV) {
-
-                    }
-                    if (action == SliderSwitchLinearLayout.ANIMATION_ORIGIN) {
-                        // 还原
-                        if (amount > 0) {
-                            // 运动方向：从左往右
-                            this.tabLineCurW = tabLine.getWidth();
-                            this.amountWFromCurrentToStart = this.tabLineCurW - this.tabLineW;
-                        }
-                        if (amount < 0) {
-                            // 运动方向：从右往左
-                        }
-                    }
-                    if (action == SliderSwitchLinearLayout.ANIMATION_NEXT) {
-                        // 移动到下一个
-                        int endPosition = position + 1;
-                        View startView = textViews[position];
-                        View endView = textViews[endPosition];
-                        int startViewW = startView.getWidth();
-                        int endViewW = endView.getWidth();
-                        this.tabLineCurW = tabLine.getWidth();
-                        this.finalTabLineCurW = this.tabLineCurW;
-                        this.tabLineEndW = (int) (endViewW * cursorRatio);
-                        this.startTabLineMargin = (startViewW - this.tabLineW ) / 2;
-                        this.endTabLineMargin = (endViewW - this.tabLineEndW) / 2;
-                        this.startViewMargin = Tool.getLayoutParams(startView , "rightMargin");
-                        this.tabLineMaxW = this.tabLineW + this.startTabLineMargin + this.startViewMargin + this.endTabLineMargin + this.tabLineEndW;
-                        this.tabLineStartX = (int) tabLine.getTranslationX();
-                    }
-                }
-
+                Tool.log("当前位置：" + position + "; touchState: " + touchState + "; action: " + action + "; ratio: " + ratio + "; amountX: " + amountX + "; amount: " + amount);
                 if (touchState == SliderSwitchLinearLayout.TOUCH_MOVE) {
-                    // 手指运动过程
-                    if (action == SliderSwitchLinearLayout.ANIMATION_NEXT) {
-                        ratio = Math.abs(ratio);
-                        ratio = Math.min(1 , ratio);
-                        double endRatio = ratio * 2;
-                        if (endRatio < 1) {
-                            int curTabLineX = (int) tabLine.getTranslationX();
-                            if (curTabLineX != this.tabLineStartX) {
-                                tabLine.setTranslationX(this.tabLineStartX);
-                            }
-                            int amountW = (int) (this.amountWFromCurrentToMax * endRatio);
-                            int endW = this.tabLineW + amountW;
-                            Tool.setLayoutParams(tabLine , "width" , endW);
-                        } else {
-                            if (!this.isMoreThanMax) {
-                                Tool.setLayoutParams(tabLine , "width" , this.tabLineMaxW);
-                                this.tabLineCurW = this.tabLineMaxW;
-                                this.amountWFromCurrentToEnd = this.tabLineCurW - this.tabLineEndW;
-                                this.isMoreThanMax = true;
-                            } else {
-                                endRatio = endRatio - 1;
-                                int amountW = (int) (this.amountWFromCurrentToEnd * endRatio);
-                                int endW = this.tabLineCurW - amountW;
-                                int endX = this.tabLineStartX + amountW;
-                                Tool.setLayoutParams(tabLine , "width" , endW);
-                                tabLine.setTranslationX(endX);
-                            }
-                        }
-                        return ;
-                    }
-                    if (action == SliderSwitchLinearLayout.ANIMATION_PREV) {
-
-                        return ;
-                    }
-                } else if (touchState == SliderSwitchLinearLayout.TOUCH_END) {
-                    // 手指触摸结束
-                    if (action == SliderSwitchLinearLayout.ANIMATION_PREV) {
-                        // 移动到上一个
-                    }
-                    if (action == SliderSwitchLinearLayout.ANIMATION_ORIGIN) {
-                        // 还原
-                        if (amount > 0) {
-                            // 运动方向：从左往右
-                            int amountW = (int) (this.amountWFromCurrentToStart * ratio);
-                            int width = this.tabLineCurW - amountW;
-                            Tool.setLayoutParams(tabLine , "width" , width);
-                        }
-                        if (amount < 0) {
-                            // 运动方向：从右往左
-                        }
-                    }
-                    if (action == SliderSwitchLinearLayout.ANIMATION_NEXT) {
-                        // 移动到下一个
-                        int tabLineCurW = tabLine.getWidth();
-                        int curTabLineX = (int) tabLine.getTranslationX();
-                        if (!this.isMoreThanMaxCopy && curTabLineX == this.finalTabLineStartX) {
-                            this.directNext = false;
-                            // 请先扩大宽度
-                            if (tabLineCurW < this.tabLineMaxW) {
-//                                Tool.log("步骤1：尚未达到最大值 curTabLineX: " + curTabLineX + "; tabLineStartX: " + this.tabLineStartX);
-                                double copyRatio = Math.abs(ratio * 2);
-                                this.amountWFromCurrentToMax = this.tabLineMaxW - this.finalTabLineCurW;
-                                int amountW = (int) (this.amountWFromCurrentToMax * copyRatio);
-                                int endW = this.finalTabLineCurW + amountW;
-                                Tool.setLayoutParams(tabLine , "width" , endW);
-                                this.tabLineCurW = endW;
-                            } else {
-                                this.isMoreThanMaxCopy = true;
-                                Tool.setLayoutParams(tabLine , "width" , this.tabLineMaxW);
-                                // 记住这个东西
-//                                Tool.log("步骤2：达到最大值");
-                                this.tabLineCurW = this.tabLineMaxW;
-                            }
-                        } else {
-                            // 已经达到最大值，正在缩小到目标数值的过程
-                            this.amountWFromCurrentToEnd = this.tabLineCurW - this.tabLineEndW;
-//                            Tool.log("tabLineCurW: " + this.tabLineCurW + "; amountWFromCurrentToEnd: " + this.amountWFromCurrentToEnd + "; tabLineEndW: " + this.tabLineEndW);
-                            int amountW;
-                            if (this.directNext) {
-                                amountW = (int) (this.amountWFromCurrentToEnd * ratio);
-//                                Tool.log("直接进入到下一个项");
-                            } else {
-                                double copyRatio = Math.abs(ratio) * 2 - 1;
-                                amountW = (int) (this.amountWFromCurrentToEnd * copyRatio);
-//                                Tool.log("步骤3：进入到下一项");
-                            }
-//                            Tool.log("amountW: " + amountW + "; directNext: " + this.directNext);
-                            int endW = this.tabLineCurW - amountW;
-                            int endX = this.tabLineStartX + amountW;
-                            Tool.setLayoutParams(tabLine , "width" , endW);
-                            tabLine.setTranslationX(endX);
-                        }
-                    }
+                    // 移动的过程
+                    return ;
+                }
+                if (touchState == SliderSwitchLinearLayout.TOUCH_END) {
+                    // 松开手指的过程
                 }
             }
         });

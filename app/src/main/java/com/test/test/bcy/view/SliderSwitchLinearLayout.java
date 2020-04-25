@@ -126,7 +126,7 @@ public class SliderSwitchLinearLayout extends LinearLayout
             return ;
         }
         int action = amountX > 0 ? this.ANIMATION_PREV : this.ANIMATION_NEXT;
-        double ratio = (double) amountX / this.width;
+        double ratio = Math.abs((double) amountX / this.width);
         this.listener.onTouchMove(this.position , ratio , amountX);
         this.listener.onMove(position , this.TOUCH_MOVE , action , ratio , amountX , 0);
     }
@@ -208,7 +208,6 @@ public class SliderSwitchLinearLayout extends LinearLayout
         final int startTransX = (int) self.inner.getTranslationX();
         int endTransX = -this.width * position;
         int amountTransX = endTransX - startTransX;
-        Tool.log("amountTransX: " + amountTransX);
         ValueAnimator animator = ValueAnimator.ofInt(startTransX , endTransX);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -225,7 +224,7 @@ public class SliderSwitchLinearLayout extends LinearLayout
                  * @param ratio 当前移动量占据每个页面宽度的百分比，有正负之分，正表示右滑 | 负表示左滑
                  * @param amountX 当前移动量，单位 px，同上
                  */
-                double ratio = (double) amountValue / amountTransX;
+                double ratio = Math.abs((double) amountValue / amountTransX);
                 self.listener.onMove(self.position , self.TOUCH_END , finalAction , ratio , amountValue , amountTransX);
             }
         });
