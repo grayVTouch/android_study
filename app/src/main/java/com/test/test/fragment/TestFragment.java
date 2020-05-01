@@ -11,14 +11,6 @@ import androidx.fragment.app.Fragment;
 
 public class TestFragment extends Fragment
 {
-
-    @Override
-    public void onCreate(Bundle bundle)
-    {
-        //
-        super.onCreate(bundle);
-    }
-
     public View onCreateView(LayoutInflater inflater , ViewGroup viewGroup , Bundle bundle)
     {
         // LayoutInflater 布局扩充器
